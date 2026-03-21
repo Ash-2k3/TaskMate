@@ -12,7 +12,8 @@ Users complete their day with a clear picture of what happened and why — not j
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ All data persists locally after restart with no internet required — Phase 1
+- ✓ UI response time under 200ms for all interactions — Phase 1
 
 ### Active
 
@@ -54,7 +55,7 @@ Users complete their day with a clear picture of what happened and why — not j
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Electron + React over Tauri | Lower barrier to entry, no Rust required | — Pending |
-| Local storage over SQLite for MVP | Simpler setup; can migrate to SQLite if data volume demands it | — Pending |
+| better-sqlite3 (not electron-store) for task data | WAL mode, indexed queries needed for weekly summaries | ✓ Good |
 | Fixed reflection questions (no customization) | Reduces decision fatigue; MVP scope | — Pending |
 | Re-notify once after 10 min (not indefinitely) | Avoids annoyance; one nudge is enough | — Pending |
 | Text-only weekly summary (no charts) | Keeps scope tight; charts are v2 | — Pending |
@@ -77,4 +78,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 after initialization*
+*Last updated: 2026-03-21 after Phase 1 (Foundation)*
