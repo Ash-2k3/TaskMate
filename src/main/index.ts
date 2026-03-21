@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+import { DataService } from './data-service';
+import { settingsStore } from './settings-store';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -10,6 +12,8 @@ if (started) {
 // Forge-injected constants for Vite integration
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
+
+let dataService: DataService;
 
 const createWindow = () => {
   // Set Windows App User Model ID early (must be before window creation)
@@ -52,6 +56,9 @@ const createWindow = () => {
 // This method will be called when Electron has finished initialization
 // and is ready to create browser windows.
 app.whenReady().then(() => {
+  // Initialize persistence layer
+  dataService = new DataService();
+
   createWindow();
 
   app.on('activate', () => {
