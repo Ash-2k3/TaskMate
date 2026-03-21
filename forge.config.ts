@@ -6,6 +6,7 @@ const config: ForgeConfig = {
     asar: {
       unpack: '**/*.node',
     },
+    extraResource: ['src/assets'],
   },
   rebuildConfig: {
     onlyModules: ['better-sqlite3'],
