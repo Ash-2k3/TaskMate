@@ -12,7 +12,7 @@ TaskMate is built in five phases, each delivering a complete, independently veri
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Electron shell, IPC/preload bridge, SQLite storage, system tray, and login item
+- [x] **Phase 1: Foundation** - Electron shell, IPC/preload bridge, SQLite storage, system tray, and login item (completed 2026-03-21)
 - [ ] **Phase 2: Task Management** - Today view with full task CRUD, priority display, and onboarding
 - [ ] **Phase 3: Reminders and Scheduling** - node-cron scheduler, native notifications, re-notification logic, and catch-up on open
 - [ ] **Phase 4: Daily Reflection** - 9 PM reflection modal, 3 fixed questions, snooze, catch-up, and persistence
@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01: Electron Forge + Vite scaffold with React 18 + TypeScript, HashRouter, Vite base path, CSP, and devtools gate
 - [x] 01-02: better-sqlite3 initialization with WAL mode, DataService wrapper, electron-store for settings, daily backup, schema validation
-- [ ] 01-03: contextBridge preload with typed window.taskmate API (channels stubbed), system tray with hide-to-tray behavior, and login-item registration
+- [x] 01-03: contextBridge preload with typed window.taskmate API (channels stubbed), system tray with hide-to-tray behavior, and login-item registration
 
 ### Phase 2: Task Management
 **Goal**: Users can create, view, edit, complete, and delete tasks from a Today view that surfaces the right tasks without overwhelming them
@@ -112,7 +112,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/3 | In Progress|  |
+| 1. Foundation | 3/3 | Complete   | 2026-03-21 |
 | 2. Task Management | 0/3 | Not started | - |
 | 3. Reminders and Scheduling | 0/3 | Not started | - |
 | 4. Daily Reflection | 0/3 | Not started | - |

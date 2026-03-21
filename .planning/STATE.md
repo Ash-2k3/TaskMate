@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-foundation-02-PLAN.md
-last_updated: "2026-03-21T15:18:59.141Z"
+stopped_at: Completed 01-foundation-03-PLAN.md
+last_updated: "2026-03-21T15:21:34.825Z"
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
 ---
 
 # Project State
@@ -48,6 +48,7 @@ Plan: 3 of 3
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 10 | 2 tasks | 12 files |
 | Phase 01-foundation P02 | 5 | 2 tasks | 4 files |
+| Phase 01-foundation P03 | 10 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Upgraded TypeScript from 4.5 to 5.x for @types/node modern syntax compatibility
 - [Phase 01-foundation]: DataService instantiated before createWindow() — DB must be ready before renderer loads
 - [Phase 01-foundation]: No before-quit handler in 01-02 — 01-03 owns single definitive handler (sets app.isQuitting AND closes DB)
+- [Phase 01-foundation]: contextBridge typeof import keeps Window types DRY — single source of truth in preload.ts
+- [Phase 01-foundation]: win.hide() only in close handler (never app.hide()) — avoids macOS frozen app Pitfall 6
+- [Phase 01-foundation]: Single before-quit handler in index.ts handles both app.isQuitting flag AND dataService.close() — prevents double-close crash
 
 ### Pending Todos
 
@@ -75,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T15:18:59.140Z
-Stopped at: Completed 01-foundation-02-PLAN.md
+Last session: 2026-03-21T15:21:34.823Z
+Stopped at: Completed 01-foundation-03-PLAN.md
 Resume file: None
