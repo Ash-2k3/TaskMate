@@ -7,12 +7,12 @@
 
 ### Foundation
 
-- [ ] **FOUND-01**: App launches as an Electron desktop application with contextIsolation enabled and a typed preload/IPC bridge
+- [x] **FOUND-01**: App launches as an Electron desktop application with contextIsolation enabled and a typed preload/IPC bridge
 - [ ] **FOUND-02**: App minimizes to system tray (does not fully quit when window is closed) so background scheduling survives
 - [ ] **FOUND-03**: App registers as a login item so it starts on system boot and the scheduler is always live
 - [ ] **FOUND-04**: All data persists to local storage (better-sqlite3 for tasks/reflections/summaries, electron-store for settings) and survives restart
-- [ ] **FOUND-05**: App works fully offline with zero network access required
-- [ ] **FOUND-06**: All UI interactions respond in under 200ms
+- [x] **FOUND-05**: App works fully offline with zero network access required
+- [x] **FOUND-06**: All UI interactions respond in under 200ms
 
 ### Task Management
 
@@ -83,12 +83,12 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 1 | Pending |
 | FOUND-03 | Phase 1 | Pending |
 | FOUND-04 | Phase 1 | Pending |
-| FOUND-05 | Phase 1 | Pending |
-| FOUND-06 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Complete |
+| FOUND-06 | Phase 1 | Complete |
 | TASK-01 | Phase 2 | Pending |
 | TASK-02 | Phase 2 | Pending |
 | TASK-03 | Phase 2 | Pending |
