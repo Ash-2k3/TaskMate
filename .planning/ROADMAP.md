@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01: Electron Forge + Vite scaffold with React 18 + TypeScript, HashRouter, Vite base path, CSP, and devtools gate
-- [ ] 01-02: better-sqlite3 initialization with WAL mode, DataService wrapper, electron-store for settings, daily backup, schema validation
+- [x] 01-02: better-sqlite3 initialization with WAL mode, DataService wrapper, electron-store for settings, daily backup, schema validation
 - [ ] 01-03: contextBridge preload with typed window.taskmate API (channels stubbed), system tray with hide-to-tray behavior, and login-item registration
 
 ### Phase 2: Task Management
@@ -112,7 +112,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/3 | In Progress|  |
+| 1. Foundation | 2/3 | In Progress|  |
 | 2. Task Management | 0/3 | Not started | - |
 | 3. Reminders and Scheduling | 0/3 | Not started | - |
 | 4. Daily Reflection | 0/3 | Not started | - |
