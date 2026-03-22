@@ -100,6 +100,10 @@ Recent decisions affecting current work:
 - [Phase 04-daily-reflection]: snoozeUntil cleared after cron trigger to avoid permanently blocking future prompts (D-08)
 - [Phase 04-daily-reflection]: showNavBar checks pathname === '/' || '/reflections' — /add and /edit/:id are utility screens without nav (D-33)
 
+### Roadmap Evolution
+
+- Phase 04.1 inserted after Phase 4: UI Polish — minimalist redesign across all screens (URGENT)
+
 ### Pending Todos
 
 None yet.
