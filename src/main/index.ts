@@ -5,6 +5,7 @@ import { DataService } from './data-service';
 import { settingsStore } from './settings-store';
 import { registerIpcHandlers } from './ipc-handlers';
 import { initTray, setupWindowCloseHandler } from './tray';
+import { initScheduler, stopScheduler } from './reminder-scheduler';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -84,6 +85,9 @@ app.whenReady().then(() => {
   initTray(() => mainWindow);
   setupWindowCloseHandler(mainWindow!);
 
+  // Initialize reminder scheduler (Phase 3 — REMIND-02)
+  initScheduler(dataService, () => mainWindow);
+
   // Register login item (FOUND-03)
   const openAtLogin = settingsStore.get('openAtLogin');
   app.setLoginItemSettings({ openAtLogin });
@@ -110,5 +114,6 @@ app.on('window-all-closed', () => {
 // This is the ONLY place in the entire app where before-quit is registered.
 app.on('before-quit', () => {
   app.isQuitting = true;
+  stopScheduler();
   dataService?.close();
 });
