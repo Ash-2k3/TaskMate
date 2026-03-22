@@ -18,9 +18,10 @@ export function initScheduler(
 
   function tick(): void {
     const now = getNow();
-    const todayDate = now.toISOString().split('T')[0];
-    // Use UTC time to match ISO date strings stored in DB (consistent with toISOString())
-    const currentHHMM = now.toISOString().slice(11, 16); // "HH:MM" in UTC
+    // Use local time — due_date and reminder_time are set from local UI inputs
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const todayDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const currentHHMM = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
     // 1. Fire initial notifications (per D-09)
     const dueTasks = dataService.getTasksDueForReminder(todayDate, currentHHMM);
