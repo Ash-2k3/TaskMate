@@ -52,7 +52,7 @@ Plans:
 Plans:
 - [x] 02-01: better-sqlite3 tasks schema and DataService CRUD methods wired through IPC handlers and Zustand useTaskStore
 - [x] 02-02: Today view with 7-task cap, due-date sort, priority display (bold/border for High, greyed for Low), overdue badge, and calm empty state
-- [ ] 02-03: Add Task screen (title input, due date picker, priority selector, Save), Edit Task screen, Delete confirmation, and 3-step first-launch onboarding with seeded example tasks
+- [x] 02-03: Add Task screen (title input, due date picker, priority selector, Save), Edit Task screen, Delete confirmation, and 3-step first-launch onboarding with seeded example tasks
 
 ### Phase 3: Reminders and Scheduling
 **Goal**: The app proactively notifies users about due tasks at the right time via native OS notifications, with one re-notification after 10 minutes and a catch-up indicator when reminders are missed
