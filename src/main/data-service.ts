@@ -248,4 +248,27 @@ export class DataService {
     `);
     return stmt.all(todayDate, cutoffTime) as Task[];
   }
+
+  // Phase 4 — Reflection methods
+
+  hasReflection(dateStr: string): boolean {
+    const row = this.db.prepare("SELECT COUNT(*) as count FROM reflections WHERE date = ?").get(dateStr) as { count: number };
+    return row.count > 0;
+  }
+
+  getCompletedTaskCountToday(): number {
+    const row = this.db.prepare("SELECT COUNT(*) as count FROM tasks WHERE completed = 1 AND date(completed_at) = date('now', 'localtime')").get() as { count: number };
+    return row.count;
+  }
+
+  saveReflection(date: string, q1: string | null, q2: string | null, q3: string | null): void {
+    const now = new Date().toISOString();
+    const stmt = this.db.prepare("INSERT OR REPLACE INTO reflections (date, q1, q2, q3, completed_at) VALUES (?, ?, ?, ?, ?)");
+    stmt.run(date, q1, q2, q3, now);
+  }
+
+  getAllReflections(): Array<{ date: string; q1: string | null; q2: string | null; q3: string | null; completed_at: string }> {
+    const stmt = this.db.prepare("SELECT * FROM reflections ORDER BY date DESC");
+    return stmt.all() as Array<{ date: string; q1: string | null; q2: string | null; q3: string | null; completed_at: string }>;
+  }
 }

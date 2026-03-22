@@ -9,6 +9,7 @@ interface Settings {
   timezone: string;
   lastSeenReflectionDate: string | null;
   hasLaunched: boolean;
+  snoozeUntil: string | null;
 }
 
 export const settingsStore = new Store<Settings>({
@@ -22,6 +23,7 @@ export const settingsStore = new Store<Settings>({
     timezone: { type: 'string', default: Intl.DateTimeFormat().resolvedOptions().timeZone },
     lastSeenReflectionDate: { default: null },
     hasLaunched: { type: 'boolean', default: false },
+    snoozeUntil: { default: null },
   },
   migrations: {
     '0.1.0': (_store) => {
