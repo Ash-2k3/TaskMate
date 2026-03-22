@@ -64,12 +64,12 @@ Plans:
   3. Re-notifications are suppressed after 8:30 PM so evening notification pile-up cannot occur
   4. Notification state (notifiedAt, renotified) persists in electron-store so re-launching the app does not re-fire already-sent notifications
   5. When the app is opened after a reminder should have fired, an in-app catch-up indicator shows which tasks had missed reminders
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: node-cron scheduler in main process — per-minute task reminder check, powerMonitor wake guard, and startup catch-up logic
-- [ ] 03-02: Native notification wrappers (Electron Notification API) with platform handling (macOS permission prompt, Windows AUMID), click handler to surface window, and notification state persistence in electron-store
-- [ ] 03-03: Re-notification logic (10-minute delay, once only, suppressed after 8:30 PM), tray badge for pending reflection, and in-app catch-up indicator
+- [ ] 03-01-PLAN.md — Vitest setup, schema migration (reminder_time column), DataService query methods, IPC + preload wiring, Zustand type updates
+- [ ] 03-02-PLAN.md — node-cron scheduler module with per-minute tick, native notifications, re-notification logic (10-min, 20:30 cutoff), powerMonitor wake guard
+- [ ] 03-03-PLAN.md — Reminder time UI field in AddTask/EditTask, catch-up banner in TodayView, end-to-end verification checkpoint
 
 ### Phase 4: Daily Reflection
 **Goal**: Users are prompted at 9 PM every day with a 3-question reflection modal that requires at least one answer, can be snoozed, and catches up on next open if missed — building the behavioral feedback loop that is TaskMate's core differentiator
