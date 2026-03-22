@@ -68,6 +68,16 @@ app.whenReady().then(() => {
   // Register IPC handlers before window loads so first renderer invokes succeed
   registerIpcHandlers(dataService);
 
+  // First-launch: seed example tasks
+  const isFirstLaunch = !settingsStore.get('hasLaunched');
+  if (isFirstLaunch) {
+    const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+    dataService.createTask({ title: 'Try completing a task', priority: 'high', due_date: today });
+    dataService.createTask({ title: 'Add your first real task', priority: 'medium' });
+    dataService.createTask({ title: 'Review your day at 9 PM', priority: 'low' });
+    settingsStore.set('hasLaunched', true);
+  }
+
   createWindow();
 
   // Initialize system tray (FOUND-02)

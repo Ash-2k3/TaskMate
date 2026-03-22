@@ -8,6 +8,7 @@ interface Settings {
   windowBounds: { x: number; y: number; width: number; height: number } | null;
   timezone: string;
   lastSeenReflectionDate: string | null;
+  hasLaunched: boolean;
 }
 
 export const settingsStore = new Store<Settings>({
@@ -20,6 +21,7 @@ export const settingsStore = new Store<Settings>({
     windowBounds: { default: null },
     timezone: { type: 'string', default: Intl.DateTimeFormat().resolvedOptions().timeZone },
     lastSeenReflectionDate: { default: null },
+    hasLaunched: { type: 'boolean', default: false },
   },
   migrations: {
     '0.1.0': (_store) => {
