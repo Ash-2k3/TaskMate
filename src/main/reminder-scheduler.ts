@@ -9,6 +9,7 @@ interface SchedulerOptions {
 }
 
 let cronTask: ScheduledTask | null = null;
+let reflectionFiredToday: string | null = null; // prevents per-minute re-fires after 21:00
 
 export function initScheduler(
   dataService: DataService,
@@ -69,12 +70,11 @@ export function initScheduler(
       if (!hasReflection) {
         const snoozeUntil = settingsStore.get('snoozeUntil');
         const snoozePassed = !snoozeUntil || new Date(snoozeUntil) <= now;
-        if (snoozePassed) {
+        if (snoozePassed && reflectionFiredToday !== todayDate) {
           const win = getMainWindow();
           if (win && !win.isDestroyed()) {
             win.webContents.send('prompt:reflection');
-            // Clear snoozeUntil after triggering per D-08
-            settingsStore.set('snoozeUntil', null);
+            reflectionFiredToday = todayDate; // fire at most once per day per D-11
           }
         }
       }

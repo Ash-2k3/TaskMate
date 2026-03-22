@@ -46,15 +46,27 @@ vi.mock('node-cron', () => ({
   }),
 }));
 
+// Mock settings-store for reflection trigger tests
+const mockSettingsGet = vi.fn();
+const mockSettingsSet = vi.fn();
+vi.mock('../main/settings-store', () => ({
+  settingsStore: {
+    get: mockSettingsGet,
+    set: mockSettingsSet,
+  },
+}));
+
 // Create mock DataService
 const mockGetTasksDueForReminder = vi.fn();
 const mockGetTasksDueForRenotification = vi.fn();
 const mockUpdateTask = vi.fn();
+const mockHasReflection = vi.fn();
 
 const mockDataService = {
   getTasksDueForReminder: mockGetTasksDueForReminder,
   getTasksDueForRenotification: mockGetTasksDueForRenotification,
   updateTask: mockUpdateTask,
+  hasReflection: mockHasReflection,
 };
 
 // Create mock getMainWindow
@@ -87,6 +99,10 @@ describe('scheduler tick', () => {
     mockGetTasksDueForReminder.mockReset();
     mockGetTasksDueForRenotification.mockReset();
     mockUpdateTask.mockReset();
+    mockHasReflection.mockReset();
+    mockSettingsGet.mockReset();
+    mockSettingsSet.mockReset();
+    mockSettingsGet.mockReturnValue(null); // no snooze by default
     mockTickFn = null;
   });
 
@@ -142,6 +158,10 @@ describe('re-notification', () => {
     mockGetTasksDueForReminder.mockReset();
     mockGetTasksDueForRenotification.mockReset();
     mockUpdateTask.mockReset();
+    mockHasReflection.mockReset();
+    mockSettingsGet.mockReset();
+    mockSettingsSet.mockReset();
+    mockSettingsGet.mockReturnValue(null);
     mockTickFn = null;
   });
 
@@ -228,12 +248,16 @@ describe('notification click', () => {
     mockGetTasksDueForReminder.mockReset();
     mockGetTasksDueForRenotification.mockReset();
     mockUpdateTask.mockReset();
+    mockHasReflection.mockReset();
+    mockSettingsGet.mockReset();
+    mockSettingsSet.mockReset();
+    mockSettingsGet.mockReturnValue(null);
     mockShow.mockReset();
     mockFocus.mockReset();
     mockTickFn = null;
   });
 
-  it('calls mainWindow.show() and mainWindow.focus() on click', async () => {
+  it('calls mainWindow.show() and mainWindow.focus() on click (notification)', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
 
     const fakeNow = new Date('2024-01-15T09:00:00.000Z');
@@ -255,5 +279,84 @@ describe('notification click', () => {
 
     expect(mockShow).toHaveBeenCalled();
     expect(mockFocus).toHaveBeenCalled();
+  });
+});
+
+describe('reflection trigger', () => {
+  const mockSend = vi.fn();
+  const mockReflectionWindow = vi.fn(() => ({
+    isDestroyed: () => false,
+    webContents: { send: mockSend },
+  }));
+
+  beforeEach(() => {
+    vi.resetModules();
+    MockNotificationInstances.length = 0;
+    mockGetTasksDueForReminder.mockReturnValue([]);
+    mockGetTasksDueForRenotification.mockReturnValue([]);
+    mockHasReflection.mockReset();
+    mockSettingsGet.mockReset();
+    mockSettingsSet.mockReset();
+    mockSettingsGet.mockReturnValue(null);
+    mockSend.mockReset();
+    mockTickFn = null;
+  });
+
+  it('sends prompt:reflection at 21:00 when no reflection saved', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(false);
+    const fakeNow = new Date(2024, 0, 15, 21, 0, 0); // local 21:00
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSend).toHaveBeenCalledWith('prompt:reflection');
+  });
+
+  it('does not send prompt:reflection before 21:00', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(false);
+    const fakeNow = new Date(2024, 0, 15, 20, 59, 0); // local 20:59
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSend).not.toHaveBeenCalledWith('prompt:reflection');
+  });
+
+  it('does not send prompt:reflection if already saved today', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(true);
+    const fakeNow = new Date(2024, 0, 15, 21, 5, 0); // local 21:05
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSend).not.toHaveBeenCalledWith('prompt:reflection');
+  });
+
+  it('does not re-fire on second tick (once-per-day guard)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(false);
+    const fakeNow = new Date(2024, 0, 15, 21, 1, 0); // local 21:01
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+    mockTickFn!(); // second tick — same date
+
+    expect(mockSend).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not send when snoozeUntil is in the future', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(false);
+    const fakeNow = new Date(2024, 0, 15, 21, 5, 0); // local 21:05
+    const snoozeUntil = new Date(2024, 0, 15, 21, 35, 0).toISOString(); // local 21:35
+    mockSettingsGet.mockReturnValue(snoozeUntil);
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSend).not.toHaveBeenCalledWith('prompt:reflection');
   });
 });
