@@ -72,7 +72,7 @@ export default function ReflectionModal({ open, onClose }: ReflectionModalProps)
             <div key={i} className="space-y-2">
               <label className="text-sm font-medium">{question}</label>
               <textarea
-                className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-y focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                 value={values[i]}
                 onChange={(e) => setters[i](e.target.value)}
                 placeholder="Type your reflection..."

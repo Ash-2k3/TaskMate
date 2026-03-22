@@ -19,7 +19,7 @@ export default function ReflectionsHistory() {
   if (isLoading) {
     return (
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Reflections</h1>
+        <h1 className="text-2xl font-semibold mb-4">Reflections</h1>
         <p className="text-muted-foreground">Loading...</p>
       </div>
     );
@@ -28,7 +28,7 @@ export default function ReflectionsHistory() {
   if (reflections.length === 0) {
     return (
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Reflections</h1>
+        <h1 className="text-2xl font-semibold mb-4">Reflections</h1>
         <p className="text-muted-foreground">No reflections yet. Your first will appear here after tonight.</p>
       </div>
     );
@@ -40,21 +40,21 @@ export default function ReflectionsHistory() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Reflections</h1>
-      <div className="space-y-2">
+      <h1 className="text-2xl font-semibold mb-4">Reflections</h1>
+      <div>
         {reflections.map((r: ReflectionRecord) => (
-          <div key={r.date} className="border rounded-lg">
+          <div key={r.date} className="border-b border-border">
             <button
-              className="w-full text-left px-4 py-3 font-medium hover:bg-muted/50"
+              className="w-full text-left px-4 py-3 font-medium hover:bg-muted/40"
               onClick={() => toggleExpand(r.date)}
             >
               {format(parseISO(r.date), 'EEEE, MMMM d')}
             </button>
             {expandedDate === r.date && (
-              <div className="px-4 pb-4 space-y-3">
+              <div className="px-4 pb-3 space-y-3">
                 {[r.q1, r.q2, r.q3].map((answer, i) => (
                   <div key={i}>
-                    <p className="text-sm font-medium text-muted-foreground">{QUESTIONS[i]}</p>
+                    <p className="text-sm text-muted-foreground">{QUESTIONS[i]}</p>
                     <p className="text-sm mt-1">{answer ?? '\u2014'}</p>
                   </div>
                 ))}
