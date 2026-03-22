@@ -2,8 +2,8 @@
 phase: 4
 slug: daily-reflection
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-22
 ---
 
@@ -38,23 +38,22 @@ created: 2026-03-22
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 04-01-01 | 01 | 1 | REFLECT-05 | unit | `npx vitest run src/__tests__/data-service.test.ts` | ✅ | ⬜ pending |
-| 04-01-02 | 01 | 1 | REFLECT-05 | unit | `npx vitest run src/__tests__/data-service.test.ts` | ✅ | ⬜ pending |
-| 04-01-03 | 01 | 1 | REFLECT-01 | unit | `npx vitest run src/__tests__/data-service.test.ts` | ✅ | ⬜ pending |
-| 04-02-01 | 02 | 2 | REFLECT-02 | manual | See manual verifications | N/A | ⬜ pending |
-| 04-02-02 | 02 | 2 | REFLECT-03 | manual | See manual verifications | N/A | ⬜ pending |
-| 04-02-03 | 02 | 2 | REFLECT-04 | manual | See manual verifications | N/A | ⬜ pending |
-| 04-03-01 | 03 | 3 | REFLECT-01 | unit | `npx vitest run src/__tests__/reminder-scheduler.test.ts` | ✅ | ⬜ pending |
-| 04-03-02 | 03 | 3 | REFLECT-06 | unit | `npx vitest run src/__tests__/reminder-scheduler.test.ts` | ✅ | ⬜ pending |
-| 04-03-03 | 03 | 3 | REFLECT-04 | unit | `npx vitest run src/__tests__/reminder-scheduler.test.ts` | ✅ | ⬜ pending |
+| 04-01-01 | 01 | 1 | REFLECT-05 | unit | `npx vitest run src/__tests__/data-service.test.ts` | yes | pending |
+| 04-01-02 | 01 | 1 | REFLECT-05 | unit | `npx vitest run src/__tests__/data-service.test.ts` | yes | pending |
+| 04-01-03 | 01 | 1 | REFLECT-05 | unit (tdd) | `npx vitest run src/__tests__/data-service.test.ts` | yes | pending |
+| 04-02-01 | 02 | 2 | REFLECT-02 | manual | See manual verifications | N/A | pending |
+| 04-02-02 | 02 | 2 | REFLECT-03 | manual | See manual verifications | N/A | pending |
+| 04-03-01 | 03 | 3 | REFLECT-01 | unit | `npx vitest run src/__tests__/reminder-scheduler.test.ts` | yes | pending |
+| 04-03-02 | 03 | 3 | REFLECT-06 | unit | `npx vitest run src/__tests__/reminder-scheduler.test.ts` | yes | pending |
+| 04-03-03 | 03 | 3 | REFLECT-04 | manual | See manual verifications (checkpoint) | N/A | pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+*Status: pending / green / red / flaky*
 
 ---
 
 ## Wave 0 Requirements
 
-Existing infrastructure covers all phase requirements — vitest is configured, `src/__tests__/data-service.test.ts` and `src/__tests__/reminder-scheduler.test.ts` already exist. New describe blocks will be added to these existing files; no new test infrastructure needed.
+Existing infrastructure covers all phase requirements — vitest is configured, `src/__tests__/data-service.test.ts` and `src/__tests__/reminder-scheduler.test.ts` already exist. Plan 04-01 Task 3 adds the new `describe('Reflection methods')` block to `data-service.test.ts` covering hasReflection, saveReflection, getAllReflections, and getCompletedTaskCountToday. No new test infrastructure needed.
 
 ---
 
@@ -74,11 +73,11 @@ Existing infrastructure covers all phase requirements — vitest is configured, 
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 5s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 5s
+- [x] `nyquist_compliant: true` set in frontmatter
 
 **Approval:** pending
