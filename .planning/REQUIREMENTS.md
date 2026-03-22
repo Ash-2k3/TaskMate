@@ -16,10 +16,10 @@
 
 ### Task Management
 
-- [ ] **TASK-01**: User can create a task with a required title, optional due date, and priority (Low / Medium / High)
-- [ ] **TASK-02**: User can edit any field of an existing task
-- [ ] **TASK-03**: User can delete a task
-- [ ] **TASK-04**: User can mark a task as complete; completed tasks are removed from the active view immediately
+- [x] **TASK-01**: User can create a task with a required title, optional due date, and priority (Low / Medium / High)
+- [x] **TASK-02**: User can edit any field of an existing task
+- [x] **TASK-03**: User can delete a task
+- [x] **TASK-04**: User can mark a task as complete; completed tasks are removed from the active view immediately
 - [ ] **TASK-05**: Main screen displays active tasks sorted by due date (Today view, capped at visible priority tasks)
 - [ ] **TASK-06**: User can add a task via a dedicated Add Task screen with title input, due date picker, priority selector, and Save button
 
@@ -89,10 +89,10 @@
 | FOUND-04 | Phase 1 | Complete |
 | FOUND-05 | Phase 1 | Complete |
 | FOUND-06 | Phase 1 | Complete |
-| TASK-01 | Phase 2 | Pending |
-| TASK-02 | Phase 2 | Pending |
-| TASK-03 | Phase 2 | Pending |
-| TASK-04 | Phase 2 | Pending |
+| TASK-01 | Phase 2 | Complete |
+| TASK-02 | Phase 2 | Complete |
+| TASK-03 | Phase 2 | Complete |
+| TASK-04 | Phase 2 | Complete |
 | TASK-05 | Phase 2 | Pending |
 | TASK-06 | Phase 2 | Pending |
 | REMIND-01 | Phase 3 | Pending |
