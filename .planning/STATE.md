@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05-weekly-summary-02-PLAN.md
-last_updated: "2026-03-22T19:32:05.442Z"
+stopped_at: Completed 05-weekly-summary-01-PLAN.md
+last_updated: "2026-03-22T19:34:50.461Z"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 17
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-21)
 ## Current Position
 
 Phase: 05 (weekly-summary) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Plan: 2 of 3
 | Phase 04.1-ui-polish-minimalist-redesign-across-all-screens P01 | 2 | 2 tasks | 2 files |
 | Phase 04.1-ui-polish-minimalist-redesign-across-all-screens P02 | 10 | 2 tasks | 4 files |
 | Phase 05-weekly-summary P02 | 5 | 2 tasks | 2 files |
+| Phase 05-weekly-summary P01 | 7 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,9 @@ Recent decisions affecting current work:
 - [Phase 04.1-ui-polish-minimalist-redesign-across-all-screens]: ReflectionsHistory uses border-b border-border row separators instead of rounded-lg cards — consistent with TaskRow flat-row pattern
 - [Phase 04.1-ui-polish-minimalist-redesign-across-all-screens]: ReflectionModal textarea uses focus-visible:ring-1 matching shadcn Input pattern (keyboard-nav-only focus ring)
 - [Phase 05-weekly-summary]: STOP_WORDS set locked at D-16 (60 words) — pure-JS extractTopKeyword with no npm dependencies per D-18
+- [Phase 05-weekly-summary]: UTC boundary strings used for all week queries (weekOf + 'T00:00:00.000Z') — consistent with ISO timestamp storage in SQLite
+- [Phase 05-weekly-summary]: getAllTasksForExport uses SELECT * without completed filter — unlike getAllTasks which filters completed=0, enables full data export
+- [Phase 05-weekly-summary]: data:export IPC handler uses dialog.showSaveDialog in main process — keeps file system access server-side, not in renderer
 
 ### Roadmap Evolution
 
@@ -123,6 +127,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T19:32:05.440Z
-Stopped at: Completed 05-weekly-summary-02-PLAN.md
+Last session: 2026-03-22T19:34:50.459Z
+Stopped at: Completed 05-weekly-summary-01-PLAN.md
 Resume file: None

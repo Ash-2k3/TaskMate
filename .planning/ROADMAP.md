@@ -112,7 +112,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — DataService summary methods (stats, deferred tasks, reflections-for-week, summary CRUD, data stats, delete-all, export-all), IPC handlers, preload bridge, unit tests
+- [x] 05-01-PLAN.md — DataService summary methods (stats, deferred tasks, reflections-for-week, summary CRUD, data stats, delete-all, export-all), IPC handlers, preload bridge, unit tests
 - [x] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
 - [ ] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
 
@@ -128,7 +128,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Reminders and Scheduling | 3/3 | Complete   | 2026-03-22 |
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
-| 5. Weekly Summary | 0/3 | Not started | - |
+| 5. Weekly Summary | 2/3 | In Progress|  |
 
 ---
 *Roadmap created: 2026-03-21*
