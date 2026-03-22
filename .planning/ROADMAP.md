@@ -84,7 +84,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — DataService reflection methods (hasReflection, saveReflection, getAllReflections, getCompletedTaskCountToday), IPC handlers replacing stubs, preload bridge, settingsStore snoozeUntil, useReflectionStore
+- [x] 04-01-PLAN.md — DataService reflection methods (hasReflection, saveReflection, getAllReflections, getCompletedTaskCountToday), IPC handlers replacing stubs, preload bridge, settingsStore snoozeUntil, useReflectionStore
 - [ ] 04-02-PLAN.md — ReflectionModal component with 3 fixed questions, pre-fill task count, at-least-1-answer validation, Save/Snooze buttons, mounted in App.tsx with onReflectionPrompt IPC listener
 - [ ] 04-03-PLAN.md — Scheduler tick extension for 9 PM reflection trigger, startup catch-up in index.ts, bottom nav bar (Today/Reflections), ReflectionsHistory screen with expandable date rows
 

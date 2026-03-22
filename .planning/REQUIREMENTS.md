@@ -37,7 +37,7 @@
 - [ ] **REFLECT-02**: Reflection appears as a modal with 3 fixed questions: (1) What did you actually finish today, even if it wasn't on your list? (2) What slowed you down most today, and was it avoidable? (3) What is the one thing you'll protect time for tomorrow?
 - [ ] **REFLECT-03**: User must answer at least 1 question before the modal can be dismissed
 - [ ] **REFLECT-04**: Modal includes a "Snooze 30 min" option so it is not a hard block
-- [ ] **REFLECT-05**: Reflection responses are stored by date (ISO date string key)
+- [x] **REFLECT-05**: Reflection responses are stored by date (ISO date string key)
 - [ ] **REFLECT-06**: If 9 PM notification is missed (OS Focus Mode / DND), app shows a catch-up reflection prompt on next open if that day's reflection is incomplete
 
 ### Weekly Summary
@@ -104,7 +104,7 @@
 | REFLECT-02 | Phase 4 | Pending |
 | REFLECT-03 | Phase 4 | Pending |
 | REFLECT-04 | Phase 4 | Pending |
-| REFLECT-05 | Phase 4 | Pending |
+| REFLECT-05 | Phase 4 | Complete |
 | REFLECT-06 | Phase 4 | Pending |
 | SUMMARY-01 | Phase 5 | Pending |
 | SUMMARY-02 | Phase 5 | Pending |
