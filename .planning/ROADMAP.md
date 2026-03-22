@@ -88,6 +88,17 @@ Plans:
 - [x] 04-02-PLAN.md — ReflectionModal component with 3 fixed questions, pre-fill task count, at-least-1-answer validation, Save/Snooze buttons, mounted in App.tsx with onReflectionPrompt IPC listener
 - [x] 04-03-PLAN.md — Scheduler tick extension for 9 PM reflection trigger, startup catch-up in index.ts, bottom nav bar (Today/Reflections), ReflectionsHistory screen with expandable date rows
 
+### Phase 04.1: UI Polish — minimalist redesign across all screens (INSERTED)
+
+**Goal:** Near-monochrome minimalist redesign: clean white row backgrounds, weight-only priority signals, flush-left form layouts, flat accordion rows, and lightened border tokens — reducing visual noise across all screens without changing any behavior
+**Requirements**: D-01 through D-22 (visual decisions captured in CONTEXT.md)
+**Depends on:** Phase 4
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04.1-01-PLAN.md — CSS variable border lightening (index.css) and TaskRow redesign (bg-background, weight-only priority, subtle hover)
+- [ ] 04.1-02-PLAN.md — Full-width flush-left layout for AddTask/EditTask, flat accordion rows for ReflectionsHistory, textarea focus ring fix for ReflectionModal
+
 ### Phase 5: Weekly Summary
 **Goal**: Every Sunday evening, the app generates a text-only summary showing task completion stats, specific deferred task titles, and the top recurring keyword from that week's reflection answers — closing the behavioral feedback loop and making patterns visible
 **Depends on**: Phase 4
@@ -116,6 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Task Management | 2/3 | In Progress|  |
 | 3. Reminders and Scheduling | 3/3 | Complete   | 2026-03-22 |
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
+| 04.1 UI Polish | 0/2 | Not started | - |
 | 5. Weekly Summary | 0/3 | Not started | - |
 
 ---
