@@ -20,6 +20,14 @@ export const taskmateAPI = {
   getSettings: () => ipcRenderer.invoke('settings:get'),
   updateSettings: (updates: unknown) => ipcRenderer.invoke('settings:update', updates),
 
+  // Weekly Summaries — Phase 5
+  getAllWeeklySummaries: () => ipcRenderer.invoke('summary:getAll'),
+
+  // Data management — Phase 5 Settings screen
+  getDataStats: () => ipcRenderer.invoke('data:getStats'),
+  exportData: () => ipcRenderer.invoke('data:export'),
+  deleteAllData: () => ipcRenderer.invoke('data:deleteAll'),
+
   // Main -> Renderer push events (listeners with cleanup)
   onReflectionPrompt: (cb: () => void) => {
     ipcRenderer.on('prompt:reflection', cb);

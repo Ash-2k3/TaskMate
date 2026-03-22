@@ -1,4 +1,5 @@
-import { ipcMain } from 'electron';
+import { ipcMain, dialog } from 'electron';
+import fs from 'fs';
 import type { DataService } from './data-service';
 import type { CreateTaskInput, UpdateTaskInput } from './data-service';
 import { settingsStore } from './settings-store';
@@ -29,6 +30,31 @@ export function registerIpcHandlers(dataService: DataService): void {
   ipcMain.handle('settings:get', () => settingsStore.store);
   ipcMain.handle('settings:update', (_event, updates: Record<string, unknown>) => {
     Object.entries(updates).forEach(([k, v]) => settingsStore.set(k as any, v));
+    return true;
+  });
+
+  // Weekly Summaries — Phase 5
+  ipcMain.handle('summary:getAll', () => dataService.getAllWeeklySummaries());
+
+  // Data management — Phase 5 Settings screen
+  ipcMain.handle('data:getStats', () => dataService.getDataStats());
+
+  ipcMain.handle('data:export', async () => {
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      defaultPath: 'taskmate-export.json',
+      filters: [{ name: 'JSON', extensions: ['json'] }],
+    });
+    if (canceled || !filePath) return { success: false };
+
+    const tasks = dataService.getAllTasksForExport();
+    const reflections = dataService.getAllReflections();
+    const summaries = dataService.getAllWeeklySummaries();
+    fs.writeFileSync(filePath, JSON.stringify({ tasks, reflections, summaries }, null, 2), 'utf8');
+    return { success: true, filePath };
+  });
+
+  ipcMain.handle('data:deleteAll', () => {
+    dataService.deleteAllData();
     return true;
   });
 }
