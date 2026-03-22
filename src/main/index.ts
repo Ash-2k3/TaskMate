@@ -88,6 +88,25 @@ app.whenReady().then(() => {
   // Initialize reminder scheduler (Phase 3 — REMIND-02)
   initScheduler(dataService, () => mainWindow);
 
+  // Startup catch-up: if past 9 PM and no reflection today, trigger immediately (REFLECT-06, D-12)
+  // Snooze does NOT block catch-up on restart (D-09)
+  {
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const currentHHMM = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const todayDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    if (currentHHMM >= '21:00' && !dataService.hasReflection(todayDate)) {
+      // Wait for window to be ready before sending IPC
+      mainWindow!.webContents.once('did-finish-load', () => {
+        mainWindow!.webContents.send('prompt:reflection');
+      });
+      // If already loaded (e.g., fast startup), send now
+      if (!mainWindow!.webContents.isLoading()) {
+        mainWindow!.webContents.send('prompt:reflection');
+      }
+    }
+  }
+
   // Register login item (FOUND-03)
   const openAtLogin = settingsStore.get('openAtLogin');
   app.setLoginItemSettings({ openAtLogin });

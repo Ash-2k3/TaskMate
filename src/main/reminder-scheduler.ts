@@ -2,6 +2,7 @@ import { Notification, powerMonitor } from 'electron';
 import { schedule, type ScheduledTask } from 'node-cron';
 import type { DataService } from './data-service';
 import type { BrowserWindow } from 'electron';
+import { settingsStore } from './settings-store';
 
 interface SchedulerOptions {
   getNow?: () => Date;
@@ -59,6 +60,23 @@ export function initScheduler(
         });
         notification.show();
         dataService.updateTask(task.id, { renotified: 1 });
+      }
+    }
+
+    // 3. Reflection trigger at 9 PM (per D-07, D-08, D-11)
+    if (currentHHMM >= '21:00') {
+      const hasReflection = dataService.hasReflection(todayDate);
+      if (!hasReflection) {
+        const snoozeUntil = settingsStore.get('snoozeUntil');
+        const snoozePassed = !snoozeUntil || new Date(snoozeUntil) <= now;
+        if (snoozePassed) {
+          const win = getMainWindow();
+          if (win && !win.isDestroyed()) {
+            win.webContents.send('prompt:reflection');
+            // Clear snoozeUntil after triggering per D-08
+            settingsStore.set('snoozeUntil', null);
+          }
+        }
       }
     }
   }
