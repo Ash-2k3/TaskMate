@@ -1,14 +1,15 @@
 import { ipcMain } from 'electron';
 import type { DataService } from './data-service';
+import type { CreateTaskInput, UpdateTaskInput } from './data-service';
 import { settingsStore } from './settings-store';
 
 export function registerIpcHandlers(dataService: DataService): void {
-  // Tasks — stubs returning empty/default data (implemented in Phase 2)
-  ipcMain.handle('tasks:getAll', () => []);
-  ipcMain.handle('tasks:create', (_event, task) => ({ id: 'stub', ...task }));
-  ipcMain.handle('tasks:update', (_event, id, _updates) => ({ id }));
-  ipcMain.handle('tasks:delete', (_event, _id) => true);
-  ipcMain.handle('tasks:complete', (_event, _id) => true);
+  // Tasks — wired to DataService
+  ipcMain.handle('tasks:getAll', () => dataService.getAllTasks());
+  ipcMain.handle('tasks:create', (_event, task: CreateTaskInput) => dataService.createTask(task));
+  ipcMain.handle('tasks:update', (_event, id: string, updates: UpdateTaskInput) => dataService.updateTask(id, updates));
+  ipcMain.handle('tasks:delete', (_event, id: string) => dataService.deleteTask(id));
+  ipcMain.handle('tasks:complete', (_event, id: string) => dataService.completeTask(id));
 
   // Reflections — stubs (implemented in Phase 4)
   ipcMain.handle('reflections:get', (_event, _date) => null);
@@ -20,7 +21,4 @@ export function registerIpcHandlers(dataService: DataService): void {
     Object.entries(updates).forEach(([k, v]) => settingsStore.set(k as any, v));
     return true;
   });
-
-  // Suppress unused variable warning — dataService will be used in Phase 2
-  void dataService;
 }
