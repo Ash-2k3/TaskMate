@@ -78,4 +78,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 after Phase 1 (Foundation)*
+*Last updated: 2026-03-22 after Phase 4.1 (UI Polish — minimalist redesign complete)*
