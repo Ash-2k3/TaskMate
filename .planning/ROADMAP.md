@@ -67,7 +67,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Vitest setup, schema migration (reminder_time column), DataService query methods, IPC + preload wiring, Zustand type updates
+- [x] 03-01-PLAN.md — Vitest setup, schema migration (reminder_time column), DataService query methods, IPC + preload wiring, Zustand type updates
 - [ ] 03-02-PLAN.md — node-cron scheduler module with per-minute tick, native notifications, re-notification logic (10-min, 20:30 cutoff), powerMonitor wake guard
 - [ ] 03-03-PLAN.md — Reminder time UI field in AddTask/EditTask, catch-up banner in TodayView, end-to-end verification checkpoint
 
@@ -114,7 +114,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-21 |
 | 2. Task Management | 2/3 | In Progress|  |
-| 3. Reminders and Scheduling | 0/3 | Not started | - |
+| 3. Reminders and Scheduling | 1/3 | In Progress|  |
 | 4. Daily Reflection | 0/3 | Not started | - |
 | 5. Weekly Summary | 0/3 | Not started | - |
 
