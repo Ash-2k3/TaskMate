@@ -20,13 +20,7 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
 
   return (
     <div
-      className={[
-        'flex items-center gap-3 px-4 py-4 bg-muted border-b border-border cursor-pointer hover:bg-accent',
-        task.priority === 'high' ? 'border-l-[3px] border-primary' : 'border-l-[3px] border-transparent',
-        task.priority === 'low' ? 'opacity-60' : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      className="flex items-center gap-3 px-4 py-3 bg-background border-b border-border cursor-pointer hover:bg-muted/40"
       onClick={() => onClick(task.id)}
     >
       {/* Completion checkbox */}
@@ -43,8 +37,9 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
       {/* Title */}
       <span
         className={[
-          'flex-1 text-sm text-foreground',
-          task.priority === 'high' ? 'font-semibold' : 'font-normal',
+          'flex-1 text-sm',
+          task.priority === 'high' ? 'font-semibold text-foreground' : 'font-normal',
+          task.priority === 'low' ? 'text-muted-foreground' : 'text-foreground',
         ]
           .filter(Boolean)
           .join(' ')}
