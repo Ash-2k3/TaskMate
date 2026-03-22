@@ -3,6 +3,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Capture the mock tick function that cron schedule() registers
 let mockTickFn: (() => void) | null = null;
 
+// Mock keyword-extractor (used by weekly summary trigger)
+vi.mock('../main/keyword-extractor', () => ({
+  extractTopKeyword: vi.fn().mockReturnValue('focus'),
+}));
+
 // Capture the mock notification constructor calls
 const MockNotificationInstances: Array<{
   title: string;
@@ -61,12 +66,22 @@ const mockGetTasksDueForReminder = vi.fn();
 const mockGetTasksDueForRenotification = vi.fn();
 const mockUpdateTask = vi.fn();
 const mockHasReflection = vi.fn();
+const mockHasWeeklySummary = vi.fn().mockReturnValue(false);
+const mockGetWeeklySummaryStats = vi.fn().mockReturnValue({ tasks_created: 5, tasks_completed: 3, completion_rate: 60 });
+const mockGetDeferredTasks = vi.fn().mockReturnValue([]);
+const mockGetReflectionsForWeek = vi.fn().mockReturnValue([]);
+const mockSaveWeeklySummary = vi.fn();
 
 const mockDataService = {
   getTasksDueForReminder: mockGetTasksDueForReminder,
   getTasksDueForRenotification: mockGetTasksDueForRenotification,
   updateTask: mockUpdateTask,
   hasReflection: mockHasReflection,
+  hasWeeklySummary: mockHasWeeklySummary,
+  getWeeklySummaryStats: mockGetWeeklySummaryStats,
+  getDeferredTasks: mockGetDeferredTasks,
+  getReflectionsForWeek: mockGetReflectionsForWeek,
+  saveWeeklySummary: mockSaveWeeklySummary,
 };
 
 // Create mock getMainWindow
@@ -358,5 +373,81 @@ describe('reflection trigger', () => {
     mockTickFn!();
 
     expect(mockSend).not.toHaveBeenCalledWith('prompt:reflection');
+  });
+});
+
+describe('weekly summary trigger', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    MockNotificationInstances.length = 0;
+    mockGetTasksDueForReminder.mockReturnValue([]);
+    mockGetTasksDueForRenotification.mockReturnValue([]);
+    mockHasReflection.mockReturnValue(false);
+    mockSettingsGet.mockReturnValue(null);
+    mockHasWeeklySummary.mockReset();
+    mockHasWeeklySummary.mockReturnValue(false);
+    mockGetWeeklySummaryStats.mockReturnValue({ tasks_created: 5, tasks_completed: 3, completion_rate: 60 });
+    mockGetDeferredTasks.mockReturnValue([]);
+    mockGetReflectionsForWeek.mockReturnValue([]);
+    mockSaveWeeklySummary.mockReset();
+    mockTickFn = null;
+  });
+
+  it('generates summary and fires notification on Sunday at 20:00', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    // Sunday 2024-01-14 at 20:00 local (new Date(year, month, day, hour, minute, second))
+    const fakeNow = new Date(2024, 0, 14, 20, 0, 0); // Sunday Jan 14 2024, 20:00 local
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSaveWeeklySummary).toHaveBeenCalledTimes(1);
+    const summaryNotif = MockNotificationInstances.find(
+      (n) => n.title === 'TaskMate' && n.body === 'Your weekly summary is ready'
+    );
+    expect(summaryNotif).toBeDefined();
+    expect(summaryNotif!.show).toHaveBeenCalled();
+  });
+
+  it('does not regenerate summary on second tick same Sunday (module-level guard)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    const fakeNow = new Date(2024, 0, 14, 20, 1, 0); // Sunday Jan 14, 20:01
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+    mockTickFn!(); // second tick same Sunday
+
+    expect(mockSaveWeeklySummary).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not generate summary when DB guard says already exists (app restart case)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasWeeklySummary.mockReturnValue(true); // DB already has summary
+    const fakeNow = new Date(2024, 0, 14, 20, 0, 0); // Sunday Jan 14, 20:00
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSaveWeeklySummary).not.toHaveBeenCalled();
+  });
+
+  it('does not generate summary on Monday at 20:00', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    const fakeNow = new Date(2024, 0, 15, 20, 0, 0); // Monday Jan 15, 20:00
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSaveWeeklySummary).not.toHaveBeenCalled();
+  });
+
+  it('does not generate summary on Sunday before 20:00 (19:59)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    const fakeNow = new Date(2024, 0, 14, 19, 59, 0); // Sunday Jan 14, 19:59
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(mockSaveWeeklySummary).not.toHaveBeenCalled();
   });
 });
