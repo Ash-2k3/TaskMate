@@ -113,7 +113,7 @@ Plans:
 
 Plans:
 - [ ] 05-01-PLAN.md — DataService summary methods (stats, deferred tasks, reflections-for-week, summary CRUD, data stats, delete-all, export-all), IPC handlers, preload bridge, unit tests
-- [ ] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
+- [x] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
 - [ ] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
 
 ## Progress
