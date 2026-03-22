@@ -271,4 +271,107 @@ export class DataService {
     const stmt = this.db.prepare("SELECT * FROM reflections ORDER BY date DESC");
     return stmt.all() as Array<{ date: string; q1: string | null; q2: string | null; q3: string | null; completed_at: string }>;
   }
+
+  // Phase 5 — Weekly Summary methods
+
+  private getWeekEnd(weekOf: string): string {
+    const d = new Date(weekOf + 'T00:00:00.000Z');
+    d.setUTCDate(d.getUTCDate() + 7);
+    return d.toISOString().split('T')[0];
+  }
+
+  getWeeklySummaryStats(weekOf: string): { tasks_created: number; tasks_completed: number; completion_rate: number } {
+    const weekStart = weekOf + 'T00:00:00.000Z';
+    const weekEnd = this.getWeekEnd(weekOf) + 'T00:00:00.000Z';
+
+    const createdRow = this.db.prepare(
+      'SELECT COUNT(*) as c FROM tasks WHERE created_at >= ? AND created_at < ?'
+    ).get(weekStart, weekEnd) as { c: number };
+
+    const completedRow = this.db.prepare(
+      'SELECT COUNT(*) as c FROM tasks WHERE completed = 1 AND completed_at >= ? AND completed_at < ?'
+    ).get(weekStart, weekEnd) as { c: number };
+
+    const tasks_created = createdRow.c;
+    const tasks_completed = completedRow.c;
+    const completion_rate = tasks_created === 0 ? 0 : Math.round((tasks_completed / tasks_created) * 100);
+
+    return { tasks_created, tasks_completed, completion_rate };
+  }
+
+  getDeferredTasks(weekOf: string): Array<{ title: string; days: number }> {
+    const weekStart = weekOf + 'T00:00:00.000Z';
+    const rows = this.db.prepare(
+      'SELECT title, created_at FROM tasks WHERE completed = 0 AND created_at < ? ORDER BY created_at ASC'
+    ).all(weekStart) as Array<{ title: string; created_at: string }>;
+
+    return rows.map(row => ({
+      title: row.title,
+      days: Math.floor((Date.now() - new Date(row.created_at).getTime()) / 86400000),
+    }));
+  }
+
+  getReflectionsForWeek(weekOf: string): string[] {
+    const weekEnd = this.getWeekEnd(weekOf);
+    const rows = this.db.prepare(
+      'SELECT q2 FROM reflections WHERE date >= ? AND date < ?'
+    ).all(weekOf, weekEnd) as Array<{ q2: string | null }>;
+
+    return rows.filter(r => r.q2 !== null).map(r => r.q2 as string);
+  }
+
+  hasWeeklySummary(weekOf: string): boolean {
+    const row = this.db.prepare(
+      'SELECT COUNT(*) as count FROM weekly_summaries WHERE week_of = ?'
+    ).get(weekOf) as { count: number };
+    return row.count > 0;
+  }
+
+  saveWeeklySummary(weekOf: string, generatedAt: string, payload: object): void {
+    this.db.prepare(
+      'INSERT OR REPLACE INTO weekly_summaries (week_of, generated_at, data) VALUES (?, ?, ?)'
+    ).run(weekOf, generatedAt, JSON.stringify(payload));
+  }
+
+  getAllWeeklySummaries(): Array<{ week_of: string; generated_at: string; data: string }> {
+    return this.db.prepare(
+      'SELECT * FROM weekly_summaries ORDER BY week_of DESC'
+    ).all() as Array<{ week_of: string; generated_at: string; data: string }>;
+  }
+
+  getDataStats(): {
+    tasksTotal: number;
+    reflectionsTotal: number;
+    reflectionsFrom: string | null;
+    reflectionsTo: string | null;
+    summariesTotal: number;
+  } {
+    const tasksRow = this.db.prepare('SELECT COUNT(*) as c FROM tasks').get() as { c: number };
+    const reflRow = this.db.prepare(
+      'SELECT COUNT(*) as c, MIN(date) as from_d, MAX(date) as to_d FROM reflections'
+    ).get() as { c: number; from_d: string | null; to_d: string | null };
+    const summRow = this.db.prepare('SELECT COUNT(*) as c FROM weekly_summaries').get() as { c: number };
+
+    return {
+      tasksTotal: tasksRow.c,
+      reflectionsTotal: reflRow.c,
+      reflectionsFrom: reflRow.from_d,
+      reflectionsTo: reflRow.to_d,
+      summariesTotal: summRow.c,
+    };
+  }
+
+  deleteAllData(): void {
+    this.db.transaction(() => {
+      this.db.prepare('DELETE FROM tasks').run();
+      this.db.prepare('DELETE FROM reflections').run();
+      this.db.prepare('DELETE FROM weekly_summaries').run();
+    })();
+  }
+
+  getAllTasksForExport(): Task[] {
+    return this.db.prepare(
+      'SELECT * FROM tasks ORDER BY created_at DESC'
+    ).all() as Task[];
+  }
 }
