@@ -66,135 +66,133 @@ export default function EditTask() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-6 py-6">
-      <div className="w-full max-w-[480px]">
-        {/* Back link */}
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          className="text-sm text-muted-foreground cursor-pointer mb-4 hover:text-foreground"
-        >
-          ← Today
-        </button>
+    <div className="min-h-screen bg-background px-6 py-6">
+      {/* Back link */}
+      <button
+        type="button"
+        onClick={() => navigate('/')}
+        className="text-sm text-muted-foreground cursor-pointer mb-4 hover:text-foreground"
+      >
+        ← Today
+      </button>
 
-        {/* Screen title */}
-        <h1 className="text-2xl font-semibold mb-6">Edit Task</h1>
+      {/* Screen title */}
+      <h1 className="text-2xl font-semibold mb-6">Edit Task</h1>
 
-        {/* Form */}
-        <div className="space-y-4">
-          {/* Title field */}
-          <div>
-            <label className="text-xs text-muted-foreground block mb-1">
-              Task
-            </label>
-            <Input
-              value={title}
-              onChange={handleTitleChange}
-              placeholder="What needs to get done?"
+      {/* Form */}
+      <div className="space-y-4">
+        {/* Title field */}
+        <div>
+          <label className="text-xs text-muted-foreground block mb-1">
+            Task
+          </label>
+          <Input
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="What needs to get done?"
+          />
+          {titleError && (
+            <p className="text-xs text-destructive mt-1">
+              Task title is required.
+            </p>
+          )}
+        </div>
+
+        {/* Due date field */}
+        <div>
+          <label className="text-xs text-muted-foreground block mb-1">
+            Due date
+          </label>
+          <DatePicker value={dueDate} onChange={handleDueDateChange} />
+        </div>
+
+        {/* Reminder time field — per D-01, D-02 */}
+        <div>
+          <label className="text-xs text-muted-foreground block mb-1">
+            Reminder time
+          </label>
+          <div className="flex items-center gap-2">
+            <input
+              type="time"
+              value={reminderTime ?? ''}
+              onChange={(e) => setReminderTime(e.target.value || null)}
+              disabled={!dueDate}
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
             />
-            {titleError && (
-              <p className="text-xs text-destructive mt-1">
-                Task title is required.
-              </p>
+            {reminderTime && (
+              <button
+                type="button"
+                onClick={() => setReminderTime(null)}
+                className="text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+              >
+                Clear
+              </button>
             )}
           </div>
+          {!dueDate && (
+            <p className="text-xs text-muted-foreground mt-1">
+              Set a due date first to enable reminders.
+            </p>
+          )}
+        </div>
 
-          {/* Due date field */}
-          <div>
-            <label className="text-xs text-muted-foreground block mb-1">
-              Due date
-            </label>
-            <DatePicker value={dueDate} onChange={handleDueDateChange} />
-          </div>
+        {/* Priority field */}
+        <div>
+          <label className="text-xs text-muted-foreground block mb-1">
+            Priority
+          </label>
+          <ToggleGroup
+            type="single"
+            value={priority}
+            onValueChange={(val) => {
+              if (val) setPriority(val as 'low' | 'medium' | 'high');
+            }}
+            className="justify-start"
+          >
+            <ToggleGroupItem value="low">Low</ToggleGroupItem>
+            <ToggleGroupItem value="medium">Medium</ToggleGroupItem>
+            <ToggleGroupItem value="high">High</ToggleGroupItem>
+          </ToggleGroup>
+        </div>
 
-          {/* Reminder time field — per D-01, D-02 */}
-          <div>
-            <label className="text-xs text-muted-foreground block mb-1">
-              Reminder time
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="time"
-                value={reminderTime ?? ''}
-                onChange={(e) => setReminderTime(e.target.value || null)}
-                disabled={!dueDate}
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              {reminderTime && (
+        {/* Save button */}
+        <Button className="w-full" onClick={handleSave}>
+          Save Task
+        </Button>
+
+        {/* Delete section */}
+        <div className="flex flex-col gap-2">
+          {showDeleteConfirm ? (
+            <div>
+              <p className="text-sm text-destructive mb-2">
+                Are you sure? This cannot be undone.
+              </p>
+              <div className="flex items-center gap-4">
                 <button
                   type="button"
-                  onClick={() => setReminderTime(null)}
-                  className="text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+                  onClick={handleConfirmDelete}
+                  className="text-sm font-semibold text-destructive cursor-pointer"
                 >
-                  Clear
+                  Yes, delete
                 </button>
-              )}
-            </div>
-            {!dueDate && (
-              <p className="text-xs text-muted-foreground mt-1">
-                Set a due date first to enable reminders.
-              </p>
-            )}
-          </div>
-
-          {/* Priority field */}
-          <div>
-            <label className="text-xs text-muted-foreground block mb-1">
-              Priority
-            </label>
-            <ToggleGroup
-              type="single"
-              value={priority}
-              onValueChange={(val) => {
-                if (val) setPriority(val as 'low' | 'medium' | 'high');
-              }}
-              className="justify-start"
-            >
-              <ToggleGroupItem value="low">Low</ToggleGroupItem>
-              <ToggleGroupItem value="medium">Medium</ToggleGroupItem>
-              <ToggleGroupItem value="high">High</ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-
-          {/* Save button */}
-          <Button className="w-full" onClick={handleSave}>
-            Save Task
-          </Button>
-
-          {/* Delete section */}
-          <div className="flex flex-col gap-2">
-            {showDeleteConfirm ? (
-              <div>
-                <p className="text-sm text-destructive mb-2">
-                  Are you sure? This cannot be undone.
-                </p>
-                <div className="flex items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={handleConfirmDelete}
-                    className="text-sm font-semibold text-destructive cursor-pointer"
-                  >
-                    Yes, delete
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowDeleteConfirm(false)}
-                    className="text-sm text-muted-foreground cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className="text-sm text-muted-foreground cursor-pointer"
+                >
+                  Cancel
+                </button>
               </div>
-            ) : (
-              <Button
-                variant="destructive"
-                className="w-full"
-                onClick={() => setShowDeleteConfirm(true)}
-              >
-                Delete Task
-              </Button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <Button
+              variant="destructive"
+              className="w-full"
+              onClick={() => setShowDeleteConfirm(true)}
+            >
+              Delete Task
+            </Button>
+          )}
         </div>
       </div>
     </div>
