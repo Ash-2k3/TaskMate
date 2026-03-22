@@ -81,12 +81,12 @@ Plans:
   3. The modal cannot be fully dismissed without answering at least 1 question; a "Snooze 30 min" option is always available as a non-blocking escape
   4. Reflection responses are saved to better-sqlite3 keyed by ISO date string; the same day's reflection prompt does not reappear after it is saved
   5. If the user opens the app after 9 PM and that day's reflection has not been completed, the modal appears immediately on app open
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: better-sqlite3 reflections schema and DataService methods (save by date, hasReflection check), Zustand useReflectionStore wired to IPC
-- [ ] 04-02: Reflection modal component — 3 fixed questions, pre-fill logic, at-least-1-answer validation, Snooze 30 min, and full-dismiss path
-- [ ] 04-03: Main-process cron trigger at 9 PM, IPC event push to renderer, startup catch-up check, snooze re-trigger after 30 minutes, and reflection history accessible from main UI
+- [ ] 04-01-PLAN.md — DataService reflection methods (hasReflection, saveReflection, getAllReflections, getCompletedTaskCountToday), IPC handlers replacing stubs, preload bridge, settingsStore snoozeUntil, useReflectionStore
+- [ ] 04-02-PLAN.md — ReflectionModal component with 3 fixed questions, pre-fill task count, at-least-1-answer validation, Save/Snooze buttons, mounted in App.tsx with onReflectionPrompt IPC listener
+- [ ] 04-03-PLAN.md — Scheduler tick extension for 9 PM reflection trigger, startup catch-up in index.ts, bottom nav bar (Today/Reflections), ReflectionsHistory screen with expandable date rows
 
 ### Phase 5: Weekly Summary
 **Goal**: Every Sunday evening, the app generates a text-only summary showing task completion stats, specific deferred task titles, and the top recurring keyword from that week's reflection answers — closing the behavioral feedback loop and making patterns visible
