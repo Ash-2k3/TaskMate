@@ -34,7 +34,7 @@ const createWindow = () => {
     height: 700,
     show: false, // Prevent white flash — show only when ready
     webPreferences: {
-      preload: path.join(__dirname, '../preload/preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
     },
