@@ -93,11 +93,11 @@ Plans:
 **Goal:** Near-monochrome minimalist redesign: clean white row backgrounds, weight-only priority signals, flush-left form layouts, flat accordion rows, and lightened border tokens — reducing visual noise across all screens without changing any behavior
 **Requirements**: D-01 through D-22 (visual decisions captured in CONTEXT.md)
 **Depends on:** Phase 4
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 04.1-01-PLAN.md — CSS variable border lightening (index.css) and TaskRow redesign (bg-background, weight-only priority, subtle hover)
-- [ ] 04.1-02-PLAN.md — Full-width flush-left layout for AddTask/EditTask, flat accordion rows for ReflectionsHistory, textarea focus ring fix for ReflectionModal
+- [x] 04.1-01-PLAN.md — CSS variable border lightening (index.css) and TaskRow redesign (bg-background, weight-only priority, subtle hover)
+- [x] 04.1-02-PLAN.md — Full-width flush-left layout for AddTask/EditTask, flat accordion rows for ReflectionsHistory, textarea focus ring fix for ReflectionModal
 
 ### Phase 5: Weekly Summary
 **Goal**: Every Sunday evening, the app generates a text-only summary showing task completion stats, specific deferred task titles, and the top recurring keyword from that week's reflection answers — closing the behavioral feedback loop and making patterns visible
@@ -127,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Task Management | 2/3 | In Progress|  |
 | 3. Reminders and Scheduling | 3/3 | Complete   | 2026-03-22 |
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
-| 04.1 UI Polish | 0/2 | Not started | - |
+| 04.1 UI Polish | 2/2 | Complete   | 2026-03-22 |
 | 5. Weekly Summary | 0/3 | Not started | - |
 
 ---
