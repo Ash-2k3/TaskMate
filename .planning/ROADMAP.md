@@ -109,12 +109,12 @@ Plans:
   3. Summary surfaces the oldest neglected task by name with the number of days it has been on the list
   4. Summary shows the top keyword extracted from that week's reflection question 2 answers via word frequency analysis (stop words removed, labeled "recurring topic")
   5. Past weekly summaries can be reviewed from within the app; summary data persists across restarts
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: better-sqlite3 summaries schema, SQL aggregation queries for task stats and deferred task titles (oldest neglected task included), DataService summary methods
-- [ ] 05-02: Pure-JS keyword extraction — tokenize, lowercase, strip punctuation, remove stop words (domain list included), frequency count, top result returned as "recurring topic"
-- [ ] 05-03: Sunday 8 PM cron trigger for summary generation, Weekly Summary screen (text layout), past summaries accessible by week, and Settings screen with record counts, date range, Export all (JSON), and Delete all
+- [ ] 05-01-PLAN.md — DataService summary methods (stats, deferred tasks, reflections-for-week, summary CRUD, data stats, delete-all, export-all), IPC handlers, preload bridge, unit tests
+- [ ] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
+- [ ] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
 
 ## Progress
 
