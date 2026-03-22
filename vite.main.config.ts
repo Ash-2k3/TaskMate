@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   build: {
     rollupOptions: {
-      external: ['better-sqlite3', 'electron-store', 'electron'],
+      external: ['better-sqlite3', 'electron-store', 'electron', 'node-cron'],
     },
   },
 });
