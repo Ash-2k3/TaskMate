@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03-reminders-and-scheduling-02-PLAN.md
-last_updated: "2026-03-22T07:35:24.437Z"
+stopped_at: Completed 03-reminders-and-scheduling-03-PLAN.md
+last_updated: "2026-03-22T07:38:37.296Z"
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -54,6 +54,7 @@ Plan: 3 of 3
 | Phase 02-task-management P03 | 2 | 2 tasks | 6 files |
 | Phase 03-reminders-and-scheduling P01 | 3 | 2 tasks | 7 files |
 | Phase 03 P02 | 2 | 2 tasks | 4 files |
+| Phase 03-reminders-and-scheduling P03 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,8 @@ Recent decisions affecting current work:
 - [Phase 03-reminders-and-scheduling]: reminder_time migration runs outside transaction via pragma table_info check — ALTER TABLE cannot run inside a transaction in SQLite
 - [Phase 03]: Use UTC time (toISOString().slice(11,16)) for HH:MM extraction — consistent with ISO timestamp storage in SQLite
 - [Phase 03]: vi.resetModules() + dynamic import in beforeEach allows multiple initScheduler() calls without cronTask module-state collision
+- [Phase 03-reminders-and-scheduling]: handleDueDateChange wrapper clears reminderTime when dueDate set to null — satisfies D-02 (no reminder without due date)
+- [Phase 03-reminders-and-scheduling]: missedTasks stored in local useState not Zustand — transient UI state, no cross-component sharing needed (D-26)
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T07:35:24.435Z
-Stopped at: Completed 03-reminders-and-scheduling-02-PLAN.md
+Last session: 2026-03-22T07:38:37.294Z
+Stopped at: Completed 03-reminders-and-scheduling-03-PLAN.md
 Resume file: None

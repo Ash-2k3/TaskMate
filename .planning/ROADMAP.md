@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Electron shell, IPC/preload bridge, SQLite storage, system tray, and login item (completed 2026-03-21)
 - [ ] **Phase 2: Task Management** - Today view with full task CRUD, priority display, and onboarding
-- [ ] **Phase 3: Reminders and Scheduling** - node-cron scheduler, native notifications, re-notification logic, and catch-up on open
+- [x] **Phase 3: Reminders and Scheduling** - node-cron scheduler, native notifications, re-notification logic, and catch-up on open (completed 2026-03-22)
 - [ ] **Phase 4: Daily Reflection** - 9 PM reflection modal, 3 fixed questions, snooze, catch-up, and persistence
 - [ ] **Phase 5: Weekly Summary** - Sunday summary generation, stats, deferred tasks, keyword analysis, and data export
 
@@ -69,7 +69,7 @@ Plans:
 Plans:
 - [x] 03-01-PLAN.md — Vitest setup, schema migration (reminder_time column), DataService query methods, IPC + preload wiring, Zustand type updates
 - [x] 03-02-PLAN.md — node-cron scheduler module with per-minute tick, native notifications, re-notification logic (10-min, 20:30 cutoff), powerMonitor wake guard
-- [ ] 03-03-PLAN.md — Reminder time UI field in AddTask/EditTask, catch-up banner in TodayView, end-to-end verification checkpoint
+- [x] 03-03-PLAN.md — Reminder time UI field in AddTask/EditTask, catch-up banner in TodayView, end-to-end verification checkpoint
 
 ### Phase 4: Daily Reflection
 **Goal**: Users are prompted at 9 PM every day with a 3-question reflection modal that requires at least one answer, can be snoozed, and catches up on next open if missed — building the behavioral feedback loop that is TaskMate's core differentiator
@@ -114,7 +114,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-21 |
 | 2. Task Management | 2/3 | In Progress|  |
-| 3. Reminders and Scheduling | 2/3 | In Progress|  |
+| 3. Reminders and Scheduling | 3/3 | Complete   | 2026-03-22 |
 | 4. Daily Reflection | 0/3 | Not started | - |
 | 5. Weekly Summary | 0/3 | Not started | - |
 
