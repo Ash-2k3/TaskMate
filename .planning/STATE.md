@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03-reminders-and-scheduling-01-PLAN.md
-last_updated: "2026-03-22T07:30:37.882Z"
+stopped_at: Completed 03-reminders-and-scheduling-02-PLAN.md
+last_updated: "2026-03-22T07:35:24.437Z"
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 8
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-21)
 ## Current Position
 
 Phase: 03 (reminders-and-scheduling) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Plan: 2 of 3
 | Phase 02-task-management P02 | 5 | 2 tasks | 18 files |
 | Phase 02-task-management P03 | 2 | 2 tasks | 6 files |
 | Phase 03-reminders-and-scheduling P01 | 3 | 2 tasks | 7 files |
+| Phase 03 P02 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,8 @@ Recent decisions affecting current work:
 - [Phase 02-task-management]: Inline delete confirmation via showDeleteConfirm state — no modal per PROJECT.md no-animation constraint
 - [Phase 03-reminders-and-scheduling]: Use fs.copyFileSync for DB backup instead of async db.backup() — avoids unhandled rejection when DB closes during test teardown
 - [Phase 03-reminders-and-scheduling]: reminder_time migration runs outside transaction via pragma table_info check — ALTER TABLE cannot run inside a transaction in SQLite
+- [Phase 03]: Use UTC time (toISOString().slice(11,16)) for HH:MM extraction — consistent with ISO timestamp storage in SQLite
+- [Phase 03]: vi.resetModules() + dynamic import in beforeEach allows multiple initScheduler() calls without cronTask module-state collision
 
 ### Pending Todos
 
@@ -92,6 +95,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T07:30:37.880Z
-Stopped at: Completed 03-reminders-and-scheduling-01-PLAN.md
+Last session: 2026-03-22T07:35:24.435Z
+Stopped at: Completed 03-reminders-and-scheduling-02-PLAN.md
 Resume file: None

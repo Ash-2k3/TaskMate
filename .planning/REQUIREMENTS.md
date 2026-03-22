@@ -25,11 +25,11 @@
 
 ### Reminders
 
-- [ ] **REMIND-01**: User can set a reminder time on any task
-- [ ] **REMIND-02**: App fires a native OS desktop notification at the reminder time
-- [ ] **REMIND-03**: If the task is not marked complete by reminder time, a single re-notification fires 10 minutes later (once only)
-- [ ] **REMIND-04**: Notification state is persisted so re-launching the app does not re-fire already-sent notifications
-- [ ] **REMIND-05**: App checks on startup for any missed reminders (e.g., user opens app after notification should have fired) and shows an in-app catch-up indicator
+- [x] **REMIND-01**: User can set a reminder time on any task
+- [x] **REMIND-02**: App fires a native OS desktop notification at the reminder time
+- [x] **REMIND-03**: If the task is not marked complete by reminder time, a single re-notification fires 10 minutes later (once only)
+- [x] **REMIND-04**: Notification state is persisted so re-launching the app does not re-fire already-sent notifications
+- [x] **REMIND-05**: App checks on startup for any missed reminders (e.g., user opens app after notification should have fired) and shows an in-app catch-up indicator
 
 ### Daily Reflection
 
@@ -95,11 +95,11 @@
 | TASK-04 | Phase 2 | Complete |
 | TASK-05 | Phase 2 | Complete |
 | TASK-06 | Phase 2 | Complete |
-| REMIND-01 | Phase 3 | Pending |
-| REMIND-02 | Phase 3 | Pending |
-| REMIND-03 | Phase 3 | Pending |
-| REMIND-04 | Phase 3 | Pending |
-| REMIND-05 | Phase 3 | Pending |
+| REMIND-01 | Phase 3 | Complete |
+| REMIND-02 | Phase 3 | Complete |
+| REMIND-03 | Phase 3 | Complete |
+| REMIND-04 | Phase 3 | Complete |
+| REMIND-05 | Phase 3 | Complete |
 | REFLECT-01 | Phase 4 | Pending |
 | REFLECT-02 | Phase 4 | Pending |
 | REFLECT-03 | Phase 4 | Pending |
