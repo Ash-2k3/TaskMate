@@ -1,12 +1,20 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useTaskStore } from './stores/useTaskStore';
+import TodayView from './screens/TodayView';
 
 function App() {
-  const ipcReady = typeof window !== 'undefined' && !!(window as any).taskmate;
+  const loadTasks = useTaskStore((s) => s.loadTasks);
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
   return (
-    <div style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-      <h1>TaskMate</h1>
-      <p>Foundation loaded.</p>
-      <p>IPC bridge: {ipcReady ? 'connected' : 'not yet connected'}</p>
+    <div className="min-h-screen bg-background text-foreground">
+      <Routes>
+        <Route path="/" element={<TodayView />} />
+      </Routes>
     </div>
   );
 }
