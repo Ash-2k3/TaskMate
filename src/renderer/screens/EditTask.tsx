@@ -20,6 +20,7 @@ export default function EditTask() {
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [titleError, setTitleError] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [reminderTime, setReminderTime] = useState<string | null>(null);
 
   useEffect(() => {
     if (!task) {
@@ -29,14 +30,22 @@ export default function EditTask() {
     setTitle(task.title);
     setDueDate(task.due_date);
     setPriority(task.priority);
+    setReminderTime(task.reminder_time);
   }, [task, navigate]);
+
+  function handleDueDateChange(value: string | null) {
+    setDueDate(value);
+    if (value === null) {
+      setReminderTime(null); // per D-02: no due date = no reminder
+    }
+  }
 
   async function handleSave() {
     if (!title.trim()) {
       setTitleError(true);
       return;
     }
-    await updateTask(id!, { title: title.trim(), due_date: dueDate, priority });
+    await updateTask(id!, { title: title.trim(), due_date: dueDate, priority, reminder_time: reminderTime });
     navigate('/');
   }
 
@@ -95,7 +104,37 @@ export default function EditTask() {
             <label className="text-xs text-muted-foreground block mb-1">
               Due date
             </label>
-            <DatePicker value={dueDate} onChange={setDueDate} />
+            <DatePicker value={dueDate} onChange={handleDueDateChange} />
+          </div>
+
+          {/* Reminder time field — per D-01, D-02 */}
+          <div>
+            <label className="text-xs text-muted-foreground block mb-1">
+              Reminder time
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="time"
+                value={reminderTime ?? ''}
+                onChange={(e) => setReminderTime(e.target.value || null)}
+                disabled={!dueDate}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              />
+              {reminderTime && (
+                <button
+                  type="button"
+                  onClick={() => setReminderTime(null)}
+                  className="text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            {!dueDate && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Set a due date first to enable reminders.
+              </p>
+            )}
           </div>
 
           {/* Priority field */}
