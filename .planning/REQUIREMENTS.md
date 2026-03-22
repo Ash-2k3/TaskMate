@@ -20,7 +20,7 @@
 - [x] **TASK-02**: User can edit any field of an existing task
 - [x] **TASK-03**: User can delete a task
 - [x] **TASK-04**: User can mark a task as complete; completed tasks are removed from the active view immediately
-- [ ] **TASK-05**: Main screen displays active tasks sorted by due date (Today view, capped at visible priority tasks)
+- [x] **TASK-05**: Main screen displays active tasks sorted by due date (Today view, capped at visible priority tasks)
 - [ ] **TASK-06**: User can add a task via a dedicated Add Task screen with title input, due date picker, priority selector, and Save button
 
 ### Reminders
@@ -93,7 +93,7 @@
 | TASK-02 | Phase 2 | Complete |
 | TASK-03 | Phase 2 | Complete |
 | TASK-04 | Phase 2 | Complete |
-| TASK-05 | Phase 2 | Pending |
+| TASK-05 | Phase 2 | Complete |
 | TASK-06 | Phase 2 | Pending |
 | REMIND-01 | Phase 3 | Pending |
 | REMIND-02 | Phase 3 | Pending |

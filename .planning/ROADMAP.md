@@ -51,7 +51,7 @@ Plans:
 
 Plans:
 - [x] 02-01: better-sqlite3 tasks schema and DataService CRUD methods wired through IPC handlers and Zustand useTaskStore
-- [ ] 02-02: Today view with 7-task cap, due-date sort, priority display (bold/border for High, greyed for Low), overdue badge, and calm empty state
+- [x] 02-02: Today view with 7-task cap, due-date sort, priority display (bold/border for High, greyed for Low), overdue badge, and calm empty state
 - [ ] 02-03: Add Task screen (title input, due date picker, priority selector, Save), Edit Task screen, Delete confirmation, and 3-step first-launch onboarding with seeded example tasks
 
 ### Phase 3: Reminders and Scheduling
@@ -113,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-21 |
-| 2. Task Management | 0/3 | Not started | - |
+| 2. Task Management | 2/3 | In Progress|  |
 | 3. Reminders and Scheduling | 0/3 | Not started | - |
 | 4. Daily Reflection | 0/3 | Not started | - |
 | 5. Weekly Summary | 0/3 | Not started | - |
