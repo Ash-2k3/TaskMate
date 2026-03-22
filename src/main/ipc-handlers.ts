@@ -13,9 +13,17 @@ export function registerIpcHandlers(dataService: DataService): void {
   ipcMain.handle('tasks:getMissedReminders', () => dataService.getMissedReminders());
   ipcMain.handle('tasks:dismissMissedReminders', (_event, ids: string[]) => dataService.dismissMissedReminders(ids));
 
-  // Reflections — stubs (implemented in Phase 4)
-  ipcMain.handle('reflections:get', (_event, _date) => null);
-  ipcMain.handle('reflections:save', (_event, _date, _answers) => true);
+  // Reflections — real implementation (Phase 4)
+  ipcMain.handle('reflections:getAll', () => dataService.getAllReflections());
+  ipcMain.handle('reflections:save', (_event, date: string, q1: string | null, q2: string | null, q3: string | null) => {
+    dataService.saveReflection(date, q1, q2, q3);
+    return true;
+  });
+  ipcMain.handle('reflections:hasToday', () => {
+    const today = new Date().toISOString().split('T')[0];
+    return dataService.hasReflection(today);
+  });
+  ipcMain.handle('reflections:getCompletedCountToday', () => dataService.getCompletedTaskCountToday());
 
   // Settings — real implementation using electron-store
   ipcMain.handle('settings:get', () => settingsStore.store);

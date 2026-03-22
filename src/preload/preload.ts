@@ -10,9 +10,11 @@ export const taskmateAPI = {
   getMissedReminders: () => ipcRenderer.invoke('tasks:getMissedReminders'),
   dismissMissedReminders: (ids: string[]) => ipcRenderer.invoke('tasks:dismissMissedReminders', ids),
 
-  // Reflections — stubbed in Phase 1
-  getReflection: (date: string) => ipcRenderer.invoke('reflections:get', date),
-  saveReflection: (date: string, answers: unknown) => ipcRenderer.invoke('reflections:save', date, answers),
+  // Reflections — Phase 4 real API
+  getReflections: () => ipcRenderer.invoke('reflections:getAll'),
+  saveReflection: (date: string, q1: string | null, q2: string | null, q3: string | null) => ipcRenderer.invoke('reflections:save', date, q1, q2, q3),
+  hasReflectionToday: () => ipcRenderer.invoke('reflections:hasToday'),
+  getCompletedCountToday: () => ipcRenderer.invoke('reflections:getCompletedCountToday'),
 
   // Settings
   getSettings: () => ipcRenderer.invoke('settings:get'),
