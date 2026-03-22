@@ -9,14 +9,15 @@ export interface Task {
   completed_at: string | null;
   created_at: string;
   updated_at: string;
+  reminder_time: string | null;  // HH:MM 24h — Phase 3
 }
 
 interface TaskStore {
   tasks: Task[];
   isLoading: boolean;
   loadTasks: () => Promise<void>;
-  createTask: (input: { title: string; due_date?: string | null; priority?: 'low' | 'medium' | 'high' }) => Promise<Task>;
-  updateTask: (id: string, updates: Partial<Pick<Task, 'title' | 'due_date' | 'priority'>>) => Promise<void>;
+  createTask: (input: { title: string; due_date?: string | null; priority?: 'low' | 'medium' | 'high'; reminder_time?: string | null }) => Promise<Task>;
+  updateTask: (id: string, updates: Partial<Pick<Task, 'title' | 'due_date' | 'priority' | 'reminder_time'>>) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
   completeTask: (id: string) => Promise<void>;
 }

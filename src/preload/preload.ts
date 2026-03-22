@@ -7,6 +7,8 @@ export const taskmateAPI = {
   updateTask: (id: string, updates: unknown) => ipcRenderer.invoke('tasks:update', id, updates),
   deleteTask: (id: string) => ipcRenderer.invoke('tasks:delete', id),
   completeTask: (id: string) => ipcRenderer.invoke('tasks:complete', id),
+  getMissedReminders: () => ipcRenderer.invoke('tasks:getMissedReminders'),
+  dismissMissedReminders: (ids: string[]) => ipcRenderer.invoke('tasks:dismissMissedReminders', ids),
 
   // Reflections — stubbed in Phase 1
   getReflection: (date: string) => ipcRenderer.invoke('reflections:get', date),

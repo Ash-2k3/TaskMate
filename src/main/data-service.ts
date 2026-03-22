@@ -14,18 +14,23 @@ export interface Task {
   updated_at: string;
   notified_at: string | null;
   renotified: 0 | 1;
+  reminder_time: string | null;  // HH:MM 24h format — Phase 3
 }
 
 export interface CreateTaskInput {
   title: string;
   due_date?: string | null;
   priority?: 'low' | 'medium' | 'high';
+  reminder_time?: string | null;  // per D-06
 }
 
 export interface UpdateTaskInput {
   title?: string;
   due_date?: string | null;
   priority?: 'low' | 'medium' | 'high';
+  reminder_time?: string | null;    // per D-06
+  notified_at?: string | null;      // per D-07
+  renotified?: 0 | 1;              // per D-07
 }
 
 export class DataService {
@@ -95,6 +100,13 @@ export class DataService {
         CREATE INDEX IF NOT EXISTS idx_tasks_completed ON tasks(completed);
       `);
     })();
+
+    // Phase 3 migration: add reminder_time column (safe to run multiple times)
+    const columns = this.db.pragma('table_info(tasks)') as Array<{ name: string }>;
+    const hasReminderTime = columns.some(c => c.name === 'reminder_time');
+    if (!hasReminderTime) {
+      this.db.exec('ALTER TABLE tasks ADD COLUMN reminder_time TEXT');
+    }
   }
 
   close(): void {
@@ -115,12 +127,13 @@ export class DataService {
     const now = new Date().toISOString();
     const priority = input.priority ?? 'medium';
     const due_date = input.due_date ?? null;
+    const reminder_time = input.reminder_time ?? null;
 
     const stmt = this.db.prepare(`
-      INSERT INTO tasks (id, title, due_date, priority, completed, completed_at, created_at, updated_at, notified_at, renotified)
-      VALUES (?, ?, ?, ?, 0, NULL, ?, ?, NULL, 0)
+      INSERT INTO tasks (id, title, due_date, priority, completed, completed_at, created_at, updated_at, notified_at, renotified, reminder_time)
+      VALUES (?, ?, ?, ?, 0, NULL, ?, ?, NULL, 0, ?)
     `);
-    stmt.run(id, input.title, due_date, priority, now, now);
+    stmt.run(id, input.title, due_date, priority, now, now, reminder_time);
 
     const row = this.db.prepare('SELECT * FROM tasks WHERE id = ?').get(id) as Task;
     return row;
@@ -141,6 +154,18 @@ export class DataService {
     if (updates.priority !== undefined) {
       fields.push('priority = ?');
       values.push(updates.priority);
+    }
+    if (updates.reminder_time !== undefined) {
+      fields.push('reminder_time = ?');
+      values.push(updates.reminder_time);
+    }
+    if (updates.notified_at !== undefined) {
+      fields.push('notified_at = ?');
+      values.push(updates.notified_at);
+    }
+    if (updates.renotified !== undefined) {
+      fields.push('renotified = ?');
+      values.push(updates.renotified);
     }
 
     const now = new Date().toISOString();
@@ -174,5 +199,53 @@ export class DataService {
   getTaskCount(): number {
     const row = this.db.prepare('SELECT COUNT(*) as count FROM tasks').get() as { count: number };
     return row.count;
+  }
+
+  getMissedReminders(): Task[] {
+    const today = new Date().toISOString().split('T')[0];
+    const stmt = this.db.prepare(`
+      SELECT * FROM tasks
+      WHERE completed = 0
+        AND due_date < ?
+        AND reminder_time IS NOT NULL
+        AND notified_at IS NULL
+    `);
+    return stmt.all(today) as Task[];
+  }
+
+  dismissMissedReminders(ids: string[]): void {
+    const now = new Date().toISOString();
+    const stmt = this.db.prepare('UPDATE tasks SET notified_at = ?, updated_at = ? WHERE id = ?');
+    const transaction = this.db.transaction((taskIds: string[]) => {
+      for (const id of taskIds) {
+        stmt.run(now, now, id);
+      }
+    });
+    transaction(ids);
+  }
+
+  getTasksDueForReminder(todayDate: string, currentHHMM: string): Task[] {
+    const stmt = this.db.prepare(`
+      SELECT * FROM tasks
+      WHERE completed = 0
+        AND due_date = ?
+        AND reminder_time IS NOT NULL
+        AND reminder_time <= ?
+        AND notified_at IS NULL
+    `);
+    return stmt.all(todayDate, currentHHMM) as Task[];
+  }
+
+  getTasksDueForRenotification(todayDate: string, cutoffTime: string): Task[] {
+    const stmt = this.db.prepare(`
+      SELECT * FROM tasks
+      WHERE completed = 0
+        AND due_date = ?
+        AND notified_at IS NOT NULL
+        AND renotified = 0
+        AND datetime(notified_at, '+10 minutes') <= datetime('now')
+        AND ? < '20:30'
+    `);
+    return stmt.all(todayDate, cutoffTime) as Task[];
   }
 }

@@ -10,6 +10,8 @@ export function registerIpcHandlers(dataService: DataService): void {
   ipcMain.handle('tasks:update', (_event, id: string, updates: UpdateTaskInput) => dataService.updateTask(id, updates));
   ipcMain.handle('tasks:delete', (_event, id: string) => dataService.deleteTask(id));
   ipcMain.handle('tasks:complete', (_event, id: string) => dataService.completeTask(id));
+  ipcMain.handle('tasks:getMissedReminders', () => dataService.getMissedReminders());
+  ipcMain.handle('tasks:dismissMissedReminders', (_event, ids: string[]) => dataService.dismissMissedReminders(ids));
 
   // Reflections — stubs (implemented in Phase 4)
   ipcMain.handle('reflections:get', (_event, _date) => null);
