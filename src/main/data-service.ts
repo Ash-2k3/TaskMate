@@ -54,7 +54,7 @@ export class DataService {
     const backupPath = path.join(userDataPath, 'taskmate.db.backup');
     try {
       if (fs.existsSync(dbPath) && fs.statSync(dbPath).size > 0) {
-        this.db.backup(backupPath);
+        fs.copyFileSync(dbPath, backupPath);
       }
     } catch (err) {
       console.error('Backup failed (non-fatal):', err);
