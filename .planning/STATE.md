@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05.2-glassmorphism-dark-theme-01-PLAN.md
-last_updated: "2026-03-23T11:17:00.071Z"
+stopped_at: Completed 05.2-glassmorphism-dark-theme-02-PLAN.md
+last_updated: "2026-03-23T11:40:09.341Z"
 progress:
   total_phases: 8
   completed_phases: 7
   total_plans: 23
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-21)
 ## Current Position
 
 Phase: 5.2 (Glassmorphism Dark Theme) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Plan: 2 of 3
 | Phase 05.1-ui-overhaul P02 | 8 | 2 tasks | 4 files |
 | Phase 05.1-ui-overhaul P03 | 2 | 2 tasks | 6 files |
 | Phase 05.2-glassmorphism-dark-theme P01 | 3 | 2 tasks | 4 files |
+| Phase 05.2-glassmorphism-dark-theme P02 | 19 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -131,6 +132,9 @@ Recent decisions affecting current work:
 - [Phase 05.2-glassmorphism-dark-theme]: Orbs use filter: blur(80px) on orb element (not backdrop-filter) — avoids nested backdrop-filter Chromium limitation
 - [Phase 05.2-glassmorphism-dark-theme]: --border stays 240 20% 15% for non-glass elements; glass surfaces use rgba(255,255,255,0.10) directly in .glass class
 - [Phase 05.2-glassmorphism-dark-theme]: Button gradient delivered via .btn-gradient CSS class in @layer components, referenced from CVA default variant
+- [Phase 05.2-glassmorphism-dark-theme]: TaskRow glass cards use mb-2 spacing between rows instead of border-b separator — each row is an independent glass surface
+- [Phase 05.2-glassmorphism-dark-theme]: ReflectionModal uses inline style backdropFilter: blur(20px) to override .glass default 16px — modal feels most elevated
+- [Phase 05.2-glassmorphism-dark-theme]: calendar.tsx classNames fully remapped to react-day-picker v9 API — v8 keys silently ignored in v9 causing blank calendar cells
 
 ### Roadmap Evolution
 
@@ -146,6 +150,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T11:17:00.069Z
-Stopped at: Completed 05.2-glassmorphism-dark-theme-01-PLAN.md
+Last session: 2026-03-23T11:40:09.339Z
+Stopped at: Completed 05.2-glassmorphism-dark-theme-02-PLAN.md
 Resume file: None
