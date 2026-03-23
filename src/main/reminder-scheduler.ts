@@ -3,6 +3,8 @@ import { schedule, type ScheduledTask } from 'node-cron';
 import type { DataService } from './data-service';
 import type { BrowserWindow } from 'electron';
 import { settingsStore } from './settings-store';
+import { isSunday, startOfWeek } from 'date-fns';
+import { extractTopKeyword } from './keyword-extractor';
 
 interface SchedulerOptions {
   getNow?: () => Date;
@@ -10,6 +12,7 @@ interface SchedulerOptions {
 
 let cronTask: ScheduledTask | null = null;
 let reflectionFiredToday: string | null = null; // prevents per-minute re-fires after 21:00
+let summaryGeneratedThisWeek: string | null = null;
 
 export function initScheduler(
   dataService: DataService,
@@ -76,6 +79,39 @@ export function initScheduler(
             win.webContents.send('prompt:reflection');
             reflectionFiredToday = todayDate; // fire at most once per day per D-11
           }
+        }
+      }
+    }
+
+    // 4. Weekly summary trigger at Sunday 8 PM (per D-01, D-02)
+    if (currentHHMM >= '20:00') {
+      if (isSunday(now)) {
+        const monday = startOfWeek(now, { weekStartsOn: 1 });
+        const weekOf = `${monday.getFullYear()}-${pad(monday.getMonth() + 1)}-${pad(monday.getDate())}`;
+
+        if (summaryGeneratedThisWeek !== weekOf && !dataService.hasWeeklySummary(weekOf)) {
+          const stats = dataService.getWeeklySummaryStats(weekOf);
+          const deferredTasks = dataService.getDeferredTasks(weekOf);
+          const q2Texts = dataService.getReflectionsForWeek(weekOf);
+          const recurringTopic = extractTopKeyword(q2Texts);
+
+          const payload = {
+            week_of: weekOf,
+            tasks_created: stats.tasks_created,
+            tasks_completed: stats.tasks_completed,
+            completion_rate: stats.completion_rate,
+            deferred_tasks: deferredTasks,
+            recurring_topic: recurringTopic,
+          };
+
+          dataService.saveWeeklySummary(weekOf, now.toISOString(), payload);
+          summaryGeneratedThisWeek = weekOf;
+
+          // Fire notification (per D-03) — no click handler
+          new Notification({
+            title: 'TaskMate',
+            body: 'Your weekly summary is ready',
+          }).show();
         }
       }
     }
