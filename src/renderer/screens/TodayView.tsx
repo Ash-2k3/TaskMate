@@ -41,7 +41,7 @@ export default function TodayView() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-border">
+      <div className="glass rounded-2xl flex items-start justify-between mx-4 mt-4 mb-0 px-4 py-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Today</h1>
           <p className="text-ui text-muted-foreground mt-1">
@@ -80,7 +80,7 @@ export default function TodayView() {
       )}
 
       {/* Task list */}
-      <div className="mx-6">
+      <div className="px-4 pt-2">
         {!isLoading && tasks.length === 0 && <EmptyState />}
         {visibleTasks.map((task) => (
           <TaskRow

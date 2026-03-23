@@ -20,7 +20,7 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-3 bg-background border-b border-border cursor-pointer hover:bg-muted/40"
+      className="glass glass-hover flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer mb-2"
       onClick={() => onClick(task.id)}
     >
       {/* Completion checkbox */}
