@@ -154,7 +154,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 5.2
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
 | 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
 | 5.1 UI Overhaul | 3/3 | Complete    | 2026-03-23 |
-| 5.2 Glassmorphism Dark Theme | 3/3 | Complete   | 2026-03-23 |
+| 5.2 Glassmorphism Dark Theme | 3/3 | Complete    | 2026-03-23 |
 
 ---
 *Roadmap created: 2026-03-21*
