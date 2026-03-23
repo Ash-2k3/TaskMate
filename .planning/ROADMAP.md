@@ -125,8 +125,8 @@ Plans:
 
 Plans:
 - [x] 05.1-01-PLAN.md — Inter font install, index.css imports + feature settings + antialiasing + color token changes, tailwind.config.js fontFamily + fontSize extensions
-- [ ] 05.1-02-PLAN.md — TaskRow checkbox hover + overdue badge, EmptyState flush-left rewrite, TodayView header border + date subline + gear touch target, nav bar bg-card + text-ui labels
-- [ ] 05.1-03-PLAN.md — WeeklySummary section headers + stat spacing + week date + select font, Settings stats + separator, ReflectionsHistory padding + header, back button pattern, ReflectionModal labels
+- [x] 05.1-02-PLAN.md — TaskRow checkbox hover + overdue badge, EmptyState flush-left rewrite, TodayView header border + date subline + gear touch target, nav bar bg-card + text-ui labels
+- [x] 05.1-03-PLAN.md — WeeklySummary section headers + stat spacing + week date + select font, Settings stats + separator, ReflectionsHistory padding + header, back button pattern, ReflectionModal labels
 
 ## Progress
 

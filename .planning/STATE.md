@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05.1-ui-overhaul-01-PLAN.md
-last_updated: "2026-03-23T08:38:00.464Z"
+stopped_at: Completed 05.1-ui-overhaul-02-PLAN.md
+last_updated: "2026-03-23T08:42:11.377Z"
 progress:
   total_phases: 7
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 20
-  completed_plans: 18
+  completed_plans: 20
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-21)
 ## Current Position
 
 Phase: 05.1 (ui-overhaul) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -64,6 +64,8 @@ Plan: 2 of 3
 | Phase 05-weekly-summary P01 | 7 | 2 tasks | 4 files |
 | Phase 05-weekly-summary P03 | 28 | 2 tasks | 7 files |
 | Phase 05.1-ui-overhaul P01 | 2 | 2 tasks | 3 files |
+| Phase 05.1-ui-overhaul P02 | 8 | 2 tasks | 4 files |
+| Phase 05.1-ui-overhaul P03 | 2 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -119,6 +121,9 @@ Recent decisions affecting current work:
 - [Phase 05.1-ui-overhaul]: Inter 400/500/600 imported offline via @fontsource; weight 300 excluded (renders poorly in Electron Chromium)
 - [Phase 05.1-ui-overhaul]: text-2xs (11px) and text-ui (13px) added as named Tailwind tokens for Wave 2 screen-level changes
 - [Phase 05.1-ui-overhaul]: Foreground token warmed from 222.2 84% 4.9% to 220 15% 8%; dark border raised from 17.5% to 22% lightness
+- [Phase 05.1-ui-overhaul]: Checkbox hover uses indigo (hover:border-primary hover:bg-primary/10) as transient-only state — not a persistent third indigo touchpoint
+- [Phase 05.1-ui-overhaul]: EmptyState heading removed entirely — quiet empty states use two flush-left muted lines matching px-4 baseline (D-25 through D-28)
+- [Phase 05.1-ui-overhaul]: bg-card nav bar creates subtle panel distinction from bg-background content; text-ui (13px) applied to all 3 nav labels (D-18, D-19)
 
 ### Roadmap Evolution
 
@@ -134,6 +139,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T08:38:00.462Z
-Stopped at: Completed 05.1-ui-overhaul-01-PLAN.md
+Last session: 2026-03-23T08:41:58.456Z
+Stopped at: Completed 05.1-ui-overhaul-02-PLAN.md
 Resume file: None
