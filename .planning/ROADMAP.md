@@ -116,6 +116,18 @@ Plans:
 - [x] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
 - [x] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
 
+### Phase 5.2: Glassmorphism Dark Theme (INSERTED)
+
+**Goal:** Full visual overhaul to a glassmorphism dark theme matching ashwathkannan.com — dark #080810 base, glass surfaces with backdrop-blur(16px), soft cyan/indigo background orbs, hover animations, DatePicker v9 fix, and personal/warm notification copy. No behavior changes.
+**Depends on:** Phase 5.1
+**Requirements:** D-01 through D-43 (visual decisions captured in 05.2-CONTEXT.md)
+**Plans:** 1/3 plans executed
+
+Plans:
+- [x] 05.2-01-PLAN.md — CSS tokens (dark palette, glass utility, orb styles, gradient button, scrollbar), `index.html` dark class, `App.tsx` orbs + nav glass
+- [ ] 05.2-02-PLAN.md — TaskRow glass + hover, TodayView glass header, EmptyState glass, ReflectionModal glass, calendar.tsx v9 remap + dark styling
+- [ ] 05.2-03-PLAN.md — AddTask/EditTask glass form, WeeklySummary/Settings/ReflectionsHistory glass section cards, notification copy rewrite, reflection system notification
+
 ### Phase 5.1: UI Overhaul — Modern, Polished Desktop App (INSERTED)
 
 **Goal:** Inter font system, 3-level type scale, component hover affordances, warmer color tokens, spacing consistency, nav bar grounding, and per-screen layout fixes — elevating visual quality to match Linear/Notion standard without changing any behavior
@@ -131,7 +143,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 5.2
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -141,7 +153,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
 | 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
-| 5.1 UI Overhaul | 0/3 | Complete    | 2026-03-23 |
+| 5.1 UI Overhaul | 3/3 | Complete    | 2026-03-23 |
+| 5.2 Glassmorphism Dark Theme | 1/3 | In Progress|  |
 
 ---
 *Roadmap created: 2026-03-21*

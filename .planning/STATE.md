@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05.1-ui-overhaul-03-PLAN.md
-last_updated: "2026-03-23T08:47:22.600Z"
+stopped_at: Completed 05.2-glassmorphism-dark-theme-01-PLAN.md
+last_updated: "2026-03-23T11:17:00.071Z"
 progress:
-  total_phases: 7
+  total_phases: 8
   completed_phases: 7
-  total_plans: 20
-  completed_plans: 20
+  total_plans: 23
+  completed_plans: 21
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-21)
 
 **Core value:** Users complete their day with a clear picture of what happened and why — not just a list of incomplete todos.
-**Current focus:** Phase 05.1 — ui-overhaul
+**Current focus:** Phase 5.2 — Glassmorphism Dark Theme
 
 ## Current Position
 
-Phase: 5.1
-Plan: Not started
+Phase: 5.2 (Glassmorphism Dark Theme) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -66,6 +66,7 @@ Plan: Not started
 | Phase 05.1-ui-overhaul P01 | 2 | 2 tasks | 3 files |
 | Phase 05.1-ui-overhaul P02 | 8 | 2 tasks | 4 files |
 | Phase 05.1-ui-overhaul P03 | 2 | 2 tasks | 6 files |
+| Phase 05.2-glassmorphism-dark-theme P01 | 3 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -126,6 +127,10 @@ Recent decisions affecting current work:
 - [Phase 05.1-ui-overhaul]: bg-card nav bar creates subtle panel distinction from bg-background content; text-ui (13px) applied to all 3 nav labels (D-18, D-19)
 - [Phase 05.1-ui-overhaul]: text-2xs (11px) for section headers and text-ui (13px) for meta/stats text applied across all secondary screens
 - [Phase 05.1-ui-overhaul]: Back button arrow+label pattern standardized: flex items-center gap-1, arrow in text-base span, label in text-ui
+- [Phase 05.2-glassmorphism-dark-theme]: Use raw CSS backdrop-filter in @layer components (not @apply backdrop-blur-*) for .glass utility — avoids JIT purge ambiguity
+- [Phase 05.2-glassmorphism-dark-theme]: Orbs use filter: blur(80px) on orb element (not backdrop-filter) — avoids nested backdrop-filter Chromium limitation
+- [Phase 05.2-glassmorphism-dark-theme]: --border stays 240 20% 15% for non-glass elements; glass surfaces use rgba(255,255,255,0.10) directly in .glass class
+- [Phase 05.2-glassmorphism-dark-theme]: Button gradient delivered via .btn-gradient CSS class in @layer components, referenced from CVA default variant
 
 ### Roadmap Evolution
 
@@ -141,6 +146,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T08:42:17.424Z
-Stopped at: Completed 05.1-ui-overhaul-03-PLAN.md
+Last session: 2026-03-23T11:17:00.069Z
+Stopped at: Completed 05.2-glassmorphism-dark-theme-01-PLAN.md
 Resume file: None
