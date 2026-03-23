@@ -305,8 +305,12 @@ describe('notification click handler', () => {
 
 describe('reflection trigger', () => {
   const mockSend = vi.fn();
+  const mockReflectionShow = vi.fn();
+  const mockReflectionFocus = vi.fn();
   const mockReflectionWindow = vi.fn(() => ({
     isDestroyed: () => false,
+    show: mockReflectionShow,
+    focus: mockReflectionFocus,
     webContents: { send: mockSend },
   }));
 
@@ -321,6 +325,8 @@ describe('reflection trigger', () => {
     mockSettingsSet.mockReset();
     mockSettingsGet.mockReturnValue(null);
     mockSend.mockReset();
+    mockReflectionShow.mockReset();
+    mockReflectionFocus.mockReset();
     mockTickFn = null;
   });
 
@@ -380,6 +386,41 @@ describe('reflection trigger', () => {
     mockTickFn!();
 
     expect(mockSend).not.toHaveBeenCalledWith('prompt:reflection');
+  });
+
+  it('creates reflection notification with body "Time to reflect on your day \u{1F319}"', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(false);
+    const fakeNow = new Date(2024, 0, 15, 22, 0, 0); // local 22:00
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    const reflectionNotif = MockNotificationInstances.find(
+      (n) => n.title === 'TaskMate' && n.body === 'Time to reflect on your day \u{1F319}'
+    );
+    expect(reflectionNotif).toBeDefined();
+    expect(reflectionNotif!.show).toHaveBeenCalled();
+  });
+
+  it('calls win.show() and win.focus() when the reflection notification is clicked', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+    mockHasReflection.mockReturnValue(false);
+    const fakeNow = new Date(2024, 0, 15, 22, 0, 0); // local 22:00
+
+    initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    const reflectionNotif = MockNotificationInstances.find(
+      (n) => n.title === 'TaskMate' && n.body === 'Time to reflect on your day \u{1F319}'
+    );
+    expect(reflectionNotif).toBeDefined();
+    expect(reflectionNotif!.handlers['click']).toBeDefined();
+
+    reflectionNotif!.handlers['click']();
+
+    expect(mockReflectionShow).toHaveBeenCalled();
+    expect(mockReflectionFocus).toHaveBeenCalled();
   });
 });
 
