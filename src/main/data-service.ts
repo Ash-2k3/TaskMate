@@ -12,9 +12,11 @@ export interface Task {
   completed_at: string | null;
   created_at: string;
   updated_at: string;
-  notified_at: string | null;
-  renotified: 0 | 1;
-  reminder_time: string | null;  // HH:MM 24h format — Phase 3
+  pre_notified: 0 | 1;                   // 30-min-before notification fired
+  notified_at: string | null;             // due-time notification timestamp
+  renotified: number;                     // overdue notification count (0–3)
+  overdue_last_notified_at: string | null; // timestamp of last overdue notification
+  reminder_time: string | null;           // HH:MM 24h format — Phase 3
 }
 
 export interface CreateTaskInput {
@@ -28,9 +30,11 @@ export interface UpdateTaskInput {
   title?: string;
   due_date?: string | null;
   priority?: 'low' | 'medium' | 'high';
-  reminder_time?: string | null;    // per D-06
-  notified_at?: string | null;      // per D-07
-  renotified?: 0 | 1;              // per D-07
+  reminder_time?: string | null;
+  pre_notified?: 0 | 1;
+  notified_at?: string | null;
+  renotified?: number;                     // overdue count 0–3
+  overdue_last_notified_at?: string | null;
 }
 
 export class DataService {
@@ -78,8 +82,10 @@ export class DataService {
           completed_at TEXT,
           created_at TEXT NOT NULL DEFAULT (datetime('now')),
           updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+          pre_notified INTEGER NOT NULL DEFAULT 0,
           notified_at TEXT,
-          renotified INTEGER NOT NULL DEFAULT 0
+          renotified INTEGER NOT NULL DEFAULT 0,
+          overdue_last_notified_at TEXT
         );
 
         CREATE TABLE IF NOT EXISTS reflections (
@@ -101,11 +107,17 @@ export class DataService {
       `);
     })();
 
-    // Phase 3 migration: add reminder_time column (safe to run multiple times)
+    // Migrations — safe to run multiple times
     const columns = this.db.pragma('table_info(tasks)') as Array<{ name: string }>;
-    const hasReminderTime = columns.some(c => c.name === 'reminder_time');
-    if (!hasReminderTime) {
+    const colNames = columns.map(c => c.name);
+    if (!colNames.includes('reminder_time')) {
       this.db.exec('ALTER TABLE tasks ADD COLUMN reminder_time TEXT');
+    }
+    if (!colNames.includes('pre_notified')) {
+      this.db.exec('ALTER TABLE tasks ADD COLUMN pre_notified INTEGER NOT NULL DEFAULT 0');
+    }
+    if (!colNames.includes('overdue_last_notified_at')) {
+      this.db.exec('ALTER TABLE tasks ADD COLUMN overdue_last_notified_at TEXT');
     }
   }
 
@@ -130,8 +142,8 @@ export class DataService {
     const reminder_time = input.reminder_time ?? null;
 
     const stmt = this.db.prepare(`
-      INSERT INTO tasks (id, title, due_date, priority, completed, completed_at, created_at, updated_at, notified_at, renotified, reminder_time)
-      VALUES (?, ?, ?, ?, 0, NULL, ?, ?, NULL, 0, ?)
+      INSERT INTO tasks (id, title, due_date, priority, completed, completed_at, created_at, updated_at, pre_notified, notified_at, renotified, overdue_last_notified_at, reminder_time)
+      VALUES (?, ?, ?, ?, 0, NULL, ?, ?, 0, NULL, 0, NULL, ?)
     `);
     stmt.run(id, input.title, due_date, priority, now, now, reminder_time);
 
@@ -155,6 +167,10 @@ export class DataService {
       fields.push('priority = ?');
       values.push(updates.priority);
     }
+    if (updates.pre_notified !== undefined) {
+      fields.push('pre_notified = ?');
+      values.push(updates.pre_notified);
+    }
     if (updates.reminder_time !== undefined) {
       fields.push('reminder_time = ?');
       values.push(updates.reminder_time);
@@ -166,6 +182,10 @@ export class DataService {
     if (updates.renotified !== undefined) {
       fields.push('renotified = ?');
       values.push(updates.renotified);
+    }
+    if (updates.overdue_last_notified_at !== undefined) {
+      fields.push('overdue_last_notified_at = ?');
+      values.push(updates.overdue_last_notified_at);
     }
 
     const now = new Date().toISOString();
@@ -224,7 +244,24 @@ export class DataService {
     transaction(ids);
   }
 
-  getTasksDueForReminder(todayDate: string, currentHHMM: string): Task[] {
+  // Tasks to notify 30 min before their reminder_time (pre-notification)
+  // thirtyAheadHHMM = currentHHMM + 30min (may exceed "23:59" as string, which is fine for comparison)
+  getTasksDueForPreNotification(todayDate: string, currentHHMM: string, thirtyAheadHHMM: string): Task[] {
+    const stmt = this.db.prepare(`
+      SELECT * FROM tasks
+      WHERE completed = 0
+        AND due_date = ?
+        AND reminder_time IS NOT NULL
+        AND pre_notified = 0
+        AND notified_at IS NULL
+        AND reminder_time > ?
+        AND reminder_time <= ?
+    `);
+    return stmt.all(todayDate, currentHHMM, thirtyAheadHHMM) as Task[];
+  }
+
+  // Tasks whose due time has arrived (fire "due now" notification)
+  getTasksDueForDueNotification(todayDate: string, currentHHMM: string): Task[] {
     const stmt = this.db.prepare(`
       SELECT * FROM tasks
       WHERE completed = 0
@@ -236,17 +273,22 @@ export class DataService {
     return stmt.all(todayDate, currentHHMM) as Task[];
   }
 
-  getTasksDueForRenotification(todayDate: string, cutoffTime: string): Task[] {
+  // Tasks past due, needing hourly overdue nudges (up to 3 times)
+  getTasksDueForOverdueNotification(todayDate: string): Task[] {
     const stmt = this.db.prepare(`
       SELECT * FROM tasks
       WHERE completed = 0
         AND due_date = ?
         AND notified_at IS NOT NULL
-        AND renotified = 0
-        AND datetime(notified_at, '+10 minutes') <= datetime('now')
-        AND ? < '20:30'
+        AND renotified < 3
+        AND (
+          (renotified = 0 AND datetime(notified_at, '+1 hour') <= datetime('now'))
+          OR
+          (renotified > 0 AND overdue_last_notified_at IS NOT NULL
+            AND datetime(overdue_last_notified_at, '+1 hour') <= datetime('now'))
+        )
     `);
-    return stmt.all(todayDate, cutoffTime) as Task[];
+    return stmt.all(todayDate) as Task[];
   }
 
   // Phase 4 — Reflection methods

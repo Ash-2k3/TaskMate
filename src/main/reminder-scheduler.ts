@@ -11,8 +11,17 @@ interface SchedulerOptions {
 }
 
 let cronTask: ScheduledTask | null = null;
-let reflectionFiredToday: string | null = null; // prevents per-minute re-fires after 21:00
+let reflectionFiredToday: string | null = null; // prevents per-minute re-fires after 22:00
 let summaryGeneratedThisWeek: string | null = null;
+
+function addMinutes(hhmm: string, minutes: number): string {
+  const [h, m] = hhmm.split(':').map(Number);
+  const total = h * 60 + m + minutes;
+  const newH = Math.floor(total / 60);
+  const newM = total % 60;
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${pad(newH)}:${pad(newM)}`; // may exceed "23:59" — intentional for string comparison
+}
 
 export function initScheduler(
   dataService: DataService,
@@ -21,54 +30,51 @@ export function initScheduler(
 ): void {
   const getNow = options.getNow ?? (() => new Date());
 
+  function focusWindow() {
+    const win = getMainWindow();
+    if (win) { win.show(); win.focus(); }
+  }
+
+  function makeNotification(body: string, clickable = true): Notification {
+    const notif = new Notification({ title: 'TaskMate', body });
+    if (clickable) notif.on('click', focusWindow);
+    return notif;
+  }
+
   function tick(): void {
     const now = getNow();
-    // Use local time — due_date and reminder_time are set from local UI inputs
     const pad = (n: number) => String(n).padStart(2, '0');
     const todayDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
     const currentHHMM = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
-    // 1. Fire initial notifications (per D-09)
-    const dueTasks = dataService.getTasksDueForReminder(todayDate, currentHHMM);
+    // 1. 30-min pre-notification
+    const thirtyAheadHHMM = addMinutes(currentHHMM, 30);
+    const preTasks = dataService.getTasksDueForPreNotification(todayDate, currentHHMM, thirtyAheadHHMM);
+    for (const task of preTasks) {
+      makeNotification(`${task.title} is due in 30 minutes \u23F0`).show();
+      dataService.updateTask(task.id, { pre_notified: 1 });
+    }
+
+    // 2. Due-time notification
+    const dueTasks = dataService.getTasksDueForDueNotification(todayDate, currentHHMM);
     for (const task of dueTasks) {
-      const notification = new Notification({
-        title: 'TaskMate',
-        body: `Hey, ${task.title} is waiting on you \u{1F440}`,
-      });
-      notification.on('click', () => {  // per D-15
-        const win = getMainWindow();
-        if (win) {
-          win.show();
-          win.focus();
-        }
-      });
-      notification.show();
+      makeNotification(`${task.title} is due now \u{1F6A8}`).show();
       dataService.updateTask(task.id, { notified_at: now.toISOString() });
     }
 
-    // 2. Fire re-notifications (per D-16, D-17, D-18)
-    // Suppressed at or after 20:30 (lexicographic string comparison is safe for HH:MM)
-    if (currentHHMM < '20:30') {
-      const renotifyTasks = dataService.getTasksDueForRenotification(todayDate, currentHHMM);
-      for (const task of renotifyTasks) {
-        const notification = new Notification({
-          title: 'TaskMate',
-          body: `Still pending: ${task.title} \u2014 you've got this \u{1F4AA}`,
-        });
-        notification.on('click', () => {
-          const win = getMainWindow();
-          if (win) {
-            win.show();
-            win.focus();
-          }
-        });
-        notification.show();
-        dataService.updateTask(task.id, { renotified: 1 });
-      }
+    // 3. Overdue nudges — up to 3 times, hourly, no time cutoff
+    const overdueTasks = dataService.getTasksDueForOverdueNotification(todayDate);
+    for (const task of overdueTasks) {
+      const newCount = task.renotified + 1;
+      makeNotification(`Still pending (${newCount}/3): ${task.title} \u{1F4A1}`).show();
+      dataService.updateTask(task.id, {
+        renotified: newCount,
+        overdue_last_notified_at: now.toISOString(),
+      });
     }
 
-    // 3. Reflection trigger at 9 PM (per D-07, D-08, D-11)
-    if (currentHHMM >= '21:00') {
+    // 4. Reflection trigger at 10 PM
+    if (currentHHMM >= '22:00') {
       const hasReflection = dataService.hasReflection(todayDate);
       if (!hasReflection) {
         const snoozeUntil = settingsStore.get('snoozeUntil');
@@ -76,27 +82,22 @@ export function initScheduler(
         if (snoozePassed && reflectionFiredToday !== todayDate) {
           const win = getMainWindow();
           if (win && !win.isDestroyed()) {
-            // New system notification for reflection (D-43)
             const reflectionNotif = new Notification({
               title: 'TaskMate',
               body: 'Time to reflect on your day \u{1F319}',
             });
             reflectionNotif.on('click', () => {
-              if (win && !win.isDestroyed()) {
-                win.show();
-                win.focus();
-              }
+              if (win && !win.isDestroyed()) { win.show(); win.focus(); }
             });
             reflectionNotif.show();
-            // Existing IPC message
             win.webContents.send('prompt:reflection');
-            reflectionFiredToday = todayDate; // fire at most once per day per D-11
+            reflectionFiredToday = todayDate;
           }
         }
       }
     }
 
-    // 4. Weekly summary trigger at Sunday 8 PM (per D-01, D-02)
+    // 5. Weekly summary trigger at Sunday 8 PM
     if (currentHHMM >= '20:00') {
       if (isSunday(now)) {
         const monday = startOfWeek(now, { weekStartsOn: 1 });
@@ -120,20 +121,17 @@ export function initScheduler(
           dataService.saveWeeklySummary(weekOf, now.toISOString(), payload);
           summaryGeneratedThisWeek = weekOf;
 
-          // Fire notification (per D-03) — no click handler
           new Notification({
             title: 'TaskMate',
-            body: 'Your week in review is ready \u2014 see how you did \u2728',
+            body: 'Your weekly summary is ready',
           }).show();
         }
       }
     }
   }
 
-  // Per-minute cron job (per D-08); noOverlap prevents tick re-entrance
   cronTask = schedule('* * * * *', tick, { noOverlap: true });
 
-  // powerMonitor resume event (per D-10) — triggers immediate re-evaluation after sleep
   powerMonitor.on('resume', () => {
     tick();
   });

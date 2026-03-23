@@ -52,6 +52,13 @@ export default function ReflectionModal({ open, onClose }: ReflectionModalProps)
     onClose();
   };
 
+  const handleFinishDay = async () => {
+    const today = new Date().toISOString().split('T')[0];
+    await useReflectionStore.getState().saveReflection(today, null, null, null);
+    await window.taskmate.updateSettings({ snoozeUntil: null });
+    onClose();
+  };
+
   const values = [q1, q2, q3];
   const setters = [setQ1, setQ2, setQ3];
 
@@ -83,9 +90,14 @@ export default function ReflectionModal({ open, onClose }: ReflectionModalProps)
         </div>
 
         <DialogFooter className="flex justify-between sm:justify-between">
-          <Button variant="outline" onClick={handleSnooze}>
-            Snooze 30 min
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleSnooze}>
+              Snooze 30 min
+            </Button>
+            <Button variant="ghost" onClick={handleFinishDay}>
+              Finish the day
+            </Button>
+          </div>
           <Button onClick={handleSave} disabled={!canSave}>
             Save ({answeredCount}/3 answered)
           </Button>

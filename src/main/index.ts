@@ -95,7 +95,7 @@ app.whenReady().then(() => {
     const pad = (n: number) => String(n).padStart(2, '0');
     const currentHHMM = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
     const todayDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-    if (currentHHMM >= '21:00' && !dataService.hasReflection(todayDate)) {
+    if (currentHHMM >= '22:00' && !dataService.hasReflection(todayDate)) {
       // Wait for window to be ready before sending IPC
       mainWindow!.webContents.once('did-finish-load', () => {
         mainWindow!.webContents.send('prompt:reflection');

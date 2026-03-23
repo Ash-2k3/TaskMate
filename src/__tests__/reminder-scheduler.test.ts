@@ -62,8 +62,9 @@ vi.mock('../main/settings-store', () => ({
 }));
 
 // Create mock DataService
-const mockGetTasksDueForReminder = vi.fn();
-const mockGetTasksDueForRenotification = vi.fn();
+const mockGetTasksDueForPreNotification = vi.fn();
+const mockGetTasksDueForDueNotification = vi.fn();
+const mockGetTasksDueForOverdueNotification = vi.fn();
 const mockUpdateTask = vi.fn();
 const mockHasReflection = vi.fn();
 const mockHasWeeklySummary = vi.fn().mockReturnValue(false);
@@ -73,8 +74,9 @@ const mockGetReflectionsForWeek = vi.fn().mockReturnValue([]);
 const mockSaveWeeklySummary = vi.fn();
 
 const mockDataService = {
-  getTasksDueForReminder: mockGetTasksDueForReminder,
-  getTasksDueForRenotification: mockGetTasksDueForRenotification,
+  getTasksDueForPreNotification: mockGetTasksDueForPreNotification,
+  getTasksDueForDueNotification: mockGetTasksDueForDueNotification,
+  getTasksDueForOverdueNotification: mockGetTasksDueForOverdueNotification,
   updateTask: mockUpdateTask,
   hasReflection: mockHasReflection,
   hasWeeklySummary: mockHasWeeklySummary,
@@ -100,65 +102,57 @@ function makeTask(overrides: Record<string, unknown> = {}) {
     completed_at: null,
     created_at: '2024-01-15T08:00:00.000Z',
     updated_at: '2024-01-15T08:00:00.000Z',
+    pre_notified: 0,
     notified_at: null,
     renotified: 0,
+    overdue_last_notified_at: null,
     reminder_time: '09:00',
     ...overrides,
   };
 }
 
-describe('scheduler tick', () => {
+describe('scheduler tick — pre-notification (30min before)', () => {
   beforeEach(() => {
     vi.resetModules();
     MockNotificationInstances.length = 0;
-    mockGetTasksDueForReminder.mockReset();
-    mockGetTasksDueForRenotification.mockReset();
+    mockGetTasksDueForPreNotification.mockReset();
+    mockGetTasksDueForDueNotification.mockReset();
+    mockGetTasksDueForOverdueNotification.mockReset();
     mockUpdateTask.mockReset();
     mockHasReflection.mockReset();
-    mockSettingsGet.mockReset();
-    mockSettingsSet.mockReset();
-    mockSettingsGet.mockReturnValue(null); // no snooze by default
+    mockSettingsGet.mockReturnValue(null);
     mockTickFn = null;
   });
 
-  it('fires notification for task due at current HH:MM', async () => {
+  it('fires pre-notification and sets pre_notified=1', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
 
-    const fakeNow = new Date('2024-01-15T09:00:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([makeTask()]);
-    mockGetTasksDueForRenotification.mockReturnValue([]);
+    // Current 08:30 → task due at 09:00 (30 min ahead)
+    const fakeNow = new Date('2024-01-15T08:30:00.000Z');
+    mockGetTasksDueForPreNotification.mockReturnValue([makeTask()]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([]);
 
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
-    expect(mockTickFn).toBeDefined();
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
 
-    // Notification was created with correct title and body
     expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
     const notif = MockNotificationInstances[0];
-    expect(notif.title).toBe('TaskMate Reminder');
-    expect(notif.body).toBe('Buy milk');
+    expect(notif.title).toBe('TaskMate');
+    expect(notif.body).toContain('due in 30 minutes');
     expect(notif.show).toHaveBeenCalled();
-
-    // updateTask called with notified_at
-    expect(mockUpdateTask).toHaveBeenCalledWith('1', {
-      notified_at: expect.any(String),
-    });
+    expect(mockUpdateTask).toHaveBeenCalledWith('1', { pre_notified: 1 });
   });
 
-  it('does not fire if no tasks due', async () => {
+  it('does not fire if no tasks due for pre-notification', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
 
-    const fakeNow = new Date('2024-01-15T09:00:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    mockGetTasksDueForRenotification.mockReturnValue([]);
+    const fakeNow = new Date('2024-01-15T08:30:00.000Z');
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([]);
 
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
 
     expect(MockNotificationInstances.length).toBe(0);
@@ -166,130 +160,142 @@ describe('scheduler tick', () => {
   });
 });
 
-describe('re-notification', () => {
+describe('scheduler tick — due-time notification', () => {
   beforeEach(() => {
     vi.resetModules();
     MockNotificationInstances.length = 0;
-    mockGetTasksDueForReminder.mockReset();
-    mockGetTasksDueForRenotification.mockReset();
+    mockGetTasksDueForPreNotification.mockReset();
+    mockGetTasksDueForDueNotification.mockReset();
+    mockGetTasksDueForOverdueNotification.mockReset();
     mockUpdateTask.mockReset();
     mockHasReflection.mockReset();
-    mockSettingsGet.mockReset();
-    mockSettingsSet.mockReset();
     mockSettingsGet.mockReturnValue(null);
     mockTickFn = null;
   });
 
-  it('fires re-notification 10 min after notified_at', async () => {
+  it('fires due-time notification and sets notified_at', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
 
-    const fakeNow = new Date('2024-01-15T09:10:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    mockGetTasksDueForRenotification.mockReturnValue([
-      makeTask({ notified_at: '2024-01-15T09:00:00.000Z', renotified: 0 }),
-    ]);
+    const fakeNow = new Date('2024-01-15T09:00:00.000Z');
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([makeTask()]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([]);
 
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
 
     expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
     const notif = MockNotificationInstances[0];
-    expect(notif.body).toBe('Still incomplete \u2014 Buy milk');
-    expect(mockUpdateTask).toHaveBeenCalledWith('1', { renotified: 1 });
-  });
-
-  it('suppresses re-notification at 20:30', async () => {
-    const { initScheduler } = await import('../main/reminder-scheduler');
-
-    // At 20:30, time is NOT < '20:30', so re-notification is suppressed
-    const fakeNow = new Date('2024-01-15T20:30:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    mockGetTasksDueForRenotification.mockReturnValue([]);
-
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
-    mockTickFn!();
-
-    expect(MockNotificationInstances.length).toBe(0);
-  });
-
-  it('fires re-notification at 20:29', async () => {
-    const { initScheduler } = await import('../main/reminder-scheduler');
-
-    const fakeNow = new Date('2024-01-15T20:29:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    mockGetTasksDueForRenotification.mockReturnValue([
-      makeTask({ notified_at: '2024-01-15T10:00:00.000Z', renotified: 0 }),
-    ]);
-
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
-    mockTickFn!();
-
-    expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
-    const notif = MockNotificationInstances[0];
-    expect(notif.body).toBe('Still incomplete \u2014 Buy milk');
-  });
-
-  it('does not re-fire task with renotified=1', async () => {
-    const { initScheduler } = await import('../main/reminder-scheduler');
-
-    const fakeNow = new Date('2024-01-15T09:15:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    // getTasksDueForRenotification returns empty because DataService filters renotified=1
-    mockGetTasksDueForRenotification.mockReturnValue([]);
-
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
-    mockTickFn!();
-
-    expect(MockNotificationInstances.length).toBe(0);
+    expect(notif.body).toContain('due now');
+    expect(notif.show).toHaveBeenCalled();
+    expect(mockUpdateTask).toHaveBeenCalledWith('1', { notified_at: expect.any(String) });
   });
 });
 
-describe('notification click', () => {
+describe('scheduler tick — overdue nudges', () => {
   beforeEach(() => {
     vi.resetModules();
     MockNotificationInstances.length = 0;
-    mockGetTasksDueForReminder.mockReset();
-    mockGetTasksDueForRenotification.mockReset();
+    mockGetTasksDueForPreNotification.mockReset();
+    mockGetTasksDueForDueNotification.mockReset();
+    mockGetTasksDueForOverdueNotification.mockReset();
     mockUpdateTask.mockReset();
     mockHasReflection.mockReset();
-    mockSettingsGet.mockReset();
-    mockSettingsSet.mockReset();
+    mockSettingsGet.mockReturnValue(null);
+    mockTickFn = null;
+  });
+
+  it('fires first overdue nudge (renotified 0→1)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+
+    const fakeNow = new Date('2024-01-15T10:00:00.000Z');
+    const overdueTask = makeTask({ notified_at: '2024-01-15T09:00:00.000Z', renotified: 0 });
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([overdueTask]);
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
+    const notif = MockNotificationInstances[0];
+    expect(notif.body).toContain('1/3');
+    expect(mockUpdateTask).toHaveBeenCalledWith('1', {
+      renotified: 1,
+      overdue_last_notified_at: expect.any(String),
+    });
+  });
+
+  it('fires third overdue nudge (renotified 2→3)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+
+    const fakeNow = new Date('2024-01-15T12:00:00.000Z');
+    const overdueTask = makeTask({
+      notified_at: '2024-01-15T09:00:00.000Z',
+      renotified: 2,
+      overdue_last_notified_at: '2024-01-15T11:00:00.000Z',
+    });
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([overdueTask]);
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    const notif = MockNotificationInstances[0];
+    expect(notif.body).toContain('3/3');
+    expect(mockUpdateTask).toHaveBeenCalledWith('1', {
+      renotified: 3,
+      overdue_last_notified_at: expect.any(String),
+    });
+  });
+
+  it('does not fire overdue nudges after 10 PM (no cutoff — fires at any hour)', async () => {
+    const { initScheduler } = await import('../main/reminder-scheduler');
+
+    // 23:00 — should still fire (no cutoff in new design)
+    const fakeNow = new Date('2024-01-15T23:00:00.000Z');
+    const overdueTask = makeTask({ notified_at: '2024-01-15T09:00:00.000Z', renotified: 0 });
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([overdueTask]);
+
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
+    mockTickFn!();
+
+    expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe('notification click handler', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    MockNotificationInstances.length = 0;
+    mockGetTasksDueForPreNotification.mockReset();
+    mockGetTasksDueForDueNotification.mockReset();
+    mockGetTasksDueForOverdueNotification.mockReset();
+    mockUpdateTask.mockReset();
+    mockHasReflection.mockReset();
     mockSettingsGet.mockReturnValue(null);
     mockShow.mockReset();
     mockFocus.mockReset();
     mockTickFn = null;
   });
 
-  it('calls mainWindow.show() and mainWindow.focus() on click (notification)', async () => {
+  it('calls mainWindow.show() and mainWindow.focus() on click', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
 
     const fakeNow = new Date('2024-01-15T09:00:00.000Z');
-    mockGetTasksDueForReminder.mockReturnValue([makeTask()]);
-    mockGetTasksDueForRenotification.mockReturnValue([]);
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([makeTask()]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([]);
 
-    initScheduler(mockDataService as never, mockGetMainWindow as never, {
-      getNow: () => fakeNow,
-    });
-
+    initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
 
     expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
     const notif = MockNotificationInstances[0];
     expect(notif.handlers['click']).toBeDefined();
-
-    // Trigger the click handler
     notif.handlers['click']();
 
     expect(mockShow).toHaveBeenCalled();
@@ -307,8 +313,9 @@ describe('reflection trigger', () => {
   beforeEach(() => {
     vi.resetModules();
     MockNotificationInstances.length = 0;
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    mockGetTasksDueForRenotification.mockReturnValue([]);
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([]);
     mockHasReflection.mockReset();
     mockSettingsGet.mockReset();
     mockSettingsSet.mockReset();
@@ -317,10 +324,10 @@ describe('reflection trigger', () => {
     mockTickFn = null;
   });
 
-  it('sends prompt:reflection at 21:00 when no reflection saved', async () => {
+  it('sends prompt:reflection at 22:00 when no reflection saved', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
     mockHasReflection.mockReturnValue(false);
-    const fakeNow = new Date(2024, 0, 15, 21, 0, 0); // local 21:00
+    const fakeNow = new Date(2024, 0, 15, 22, 0, 0); // local 22:00
 
     initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -328,10 +335,10 @@ describe('reflection trigger', () => {
     expect(mockSend).toHaveBeenCalledWith('prompt:reflection');
   });
 
-  it('does not send prompt:reflection before 21:00', async () => {
+  it('does not send prompt:reflection before 22:00', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
     mockHasReflection.mockReturnValue(false);
-    const fakeNow = new Date(2024, 0, 15, 20, 59, 0); // local 20:59
+    const fakeNow = new Date(2024, 0, 15, 21, 59, 0); // local 21:59
 
     initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -342,7 +349,7 @@ describe('reflection trigger', () => {
   it('does not send prompt:reflection if already saved today', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
     mockHasReflection.mockReturnValue(true);
-    const fakeNow = new Date(2024, 0, 15, 21, 5, 0); // local 21:05
+    const fakeNow = new Date(2024, 0, 15, 22, 5, 0); // local 22:05
 
     initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -353,7 +360,7 @@ describe('reflection trigger', () => {
   it('does not re-fire on second tick (once-per-day guard)', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
     mockHasReflection.mockReturnValue(false);
-    const fakeNow = new Date(2024, 0, 15, 21, 1, 0); // local 21:01
+    const fakeNow = new Date(2024, 0, 15, 22, 1, 0); // local 22:01
 
     initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -365,8 +372,8 @@ describe('reflection trigger', () => {
   it('does not send when snoozeUntil is in the future', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
     mockHasReflection.mockReturnValue(false);
-    const fakeNow = new Date(2024, 0, 15, 21, 5, 0); // local 21:05
-    const snoozeUntil = new Date(2024, 0, 15, 21, 35, 0).toISOString(); // local 21:35
+    const fakeNow = new Date(2024, 0, 15, 22, 5, 0); // local 22:05
+    const snoozeUntil = new Date(2024, 0, 15, 22, 35, 0).toISOString(); // local 22:35
     mockSettingsGet.mockReturnValue(snoozeUntil);
 
     initScheduler(mockDataService as never, mockReflectionWindow as never, { getNow: () => fakeNow });
@@ -380,8 +387,9 @@ describe('weekly summary trigger', () => {
   beforeEach(() => {
     vi.resetModules();
     MockNotificationInstances.length = 0;
-    mockGetTasksDueForReminder.mockReturnValue([]);
-    mockGetTasksDueForRenotification.mockReturnValue([]);
+    mockGetTasksDueForPreNotification.mockReturnValue([]);
+    mockGetTasksDueForDueNotification.mockReturnValue([]);
+    mockGetTasksDueForOverdueNotification.mockReturnValue([]);
     mockHasReflection.mockReturnValue(false);
     mockSettingsGet.mockReturnValue(null);
     mockHasWeeklySummary.mockReset();
@@ -395,8 +403,8 @@ describe('weekly summary trigger', () => {
 
   it('generates summary and fires notification on Sunday at 20:00', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
-    // Sunday 2024-01-14 at 20:00 local (new Date(year, month, day, hour, minute, second))
-    const fakeNow = new Date(2024, 0, 14, 20, 0, 0); // Sunday Jan 14 2024, 20:00 local
+    // Sunday 2024-01-14 at 20:00 local
+    const fakeNow = new Date(2024, 0, 14, 20, 0, 0);
 
     initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -411,19 +419,19 @@ describe('weekly summary trigger', () => {
 
   it('does not regenerate summary on second tick same Sunday (module-level guard)', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
-    const fakeNow = new Date(2024, 0, 14, 20, 1, 0); // Sunday Jan 14, 20:01
+    const fakeNow = new Date(2024, 0, 14, 20, 1, 0);
 
     initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
-    mockTickFn!(); // second tick same Sunday
+    mockTickFn!();
 
     expect(mockSaveWeeklySummary).toHaveBeenCalledTimes(1);
   });
 
-  it('does not generate summary when DB guard says already exists (app restart case)', async () => {
+  it('does not generate summary when DB guard says already exists', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
-    mockHasWeeklySummary.mockReturnValue(true); // DB already has summary
-    const fakeNow = new Date(2024, 0, 14, 20, 0, 0); // Sunday Jan 14, 20:00
+    mockHasWeeklySummary.mockReturnValue(true);
+    const fakeNow = new Date(2024, 0, 14, 20, 0, 0);
 
     initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -433,7 +441,7 @@ describe('weekly summary trigger', () => {
 
   it('does not generate summary on Monday at 20:00', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
-    const fakeNow = new Date(2024, 0, 15, 20, 0, 0); // Monday Jan 15, 20:00
+    const fakeNow = new Date(2024, 0, 15, 20, 0, 0); // Monday
 
     initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();
@@ -441,9 +449,9 @@ describe('weekly summary trigger', () => {
     expect(mockSaveWeeklySummary).not.toHaveBeenCalled();
   });
 
-  it('does not generate summary on Sunday before 20:00 (19:59)', async () => {
+  it('does not generate summary on Sunday before 20:00', async () => {
     const { initScheduler } = await import('../main/reminder-scheduler');
-    const fakeNow = new Date(2024, 0, 14, 19, 59, 0); // Sunday Jan 14, 19:59
+    const fakeNow = new Date(2024, 0, 14, 19, 59, 0);
 
     initScheduler(mockDataService as never, mockGetMainWindow as never, { getNow: () => fakeNow });
     mockTickFn!();

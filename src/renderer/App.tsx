@@ -27,6 +27,12 @@ function App() {
     return cleanup;
   }, []);
 
+  useEffect(() => {
+    const handler = () => setReflectionOpen(true);
+    window.addEventListener('open-reflection-modal', handler);
+    return () => window.removeEventListener('open-reflection-modal', handler);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground pb-14">
       {/* Orb 1 — cyan, top-right */}
