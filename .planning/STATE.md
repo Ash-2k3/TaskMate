@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05.2-glassmorphism-dark-theme-02-PLAN.md
-last_updated: "2026-03-23T11:40:09.341Z"
+stopped_at: Completed 05.2-glassmorphism-dark-theme-03-PLAN.md
+last_updated: "2026-03-23T11:41:32.750Z"
 progress:
   total_phases: 8
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 23
-  completed_plans: 22
+  completed_plans: 23
 ---
 
 # Project State
@@ -68,6 +68,7 @@ Plan: 3 of 3
 | Phase 05.1-ui-overhaul P03 | 2 | 2 tasks | 6 files |
 | Phase 05.2-glassmorphism-dark-theme P01 | 3 | 2 tasks | 4 files |
 | Phase 05.2-glassmorphism-dark-theme P02 | 19 | 2 tasks | 5 files |
+| Phase 05.2-glassmorphism-dark-theme P03 | 20 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -135,6 +136,10 @@ Recent decisions affecting current work:
 - [Phase 05.2-glassmorphism-dark-theme]: TaskRow glass cards use mb-2 spacing between rows instead of border-b separator — each row is an independent glass surface
 - [Phase 05.2-glassmorphism-dark-theme]: ReflectionModal uses inline style backdropFilter: blur(20px) to override .glass default 16px — modal feels most elevated
 - [Phase 05.2-glassmorphism-dark-theme]: calendar.tsx classNames fully remapped to react-day-picker v9 API — v8 keys silently ignored in v9 causing blank calendar cells
+- [Phase 05.2-glassmorphism-dark-theme]: Glass card wraps only form body in AddTask/EditTask; back button and h1 stay outside the card flush-left above
+- [Phase 05.2-glassmorphism-dark-theme]: ReflectionsHistory uses overflow-hidden on glass card to clip inner row borders at rounded-2xl corners
+- [Phase 05.2-glassmorphism-dark-theme]: Reflection notification (D-43) fires before win.webContents.send so OS notification and modal arrive as a coordinated pair
+- [Phase 05.2-glassmorphism-dark-theme]: Notification title simplified from 'TaskMate Reminder' to 'TaskMate' on all notification sites
 
 ### Roadmap Evolution
 
@@ -150,6 +155,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T11:40:09.339Z
-Stopped at: Completed 05.2-glassmorphism-dark-theme-02-PLAN.md
+Last session: 2026-03-23T11:41:32.749Z
+Stopped at: Completed 05.2-glassmorphism-dark-theme-03-PLAN.md
 Resume file: None

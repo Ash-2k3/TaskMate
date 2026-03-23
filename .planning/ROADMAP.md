@@ -121,12 +121,12 @@ Plans:
 **Goal:** Full visual overhaul to a glassmorphism dark theme matching ashwathkannan.com — dark #080810 base, glass surfaces with backdrop-blur(16px), soft cyan/indigo background orbs, hover animations, DatePicker v9 fix, and personal/warm notification copy. No behavior changes.
 **Depends on:** Phase 5.1
 **Requirements:** D-01 through D-43 (visual decisions captured in 05.2-CONTEXT.md)
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 05.2-01-PLAN.md — CSS tokens (dark palette, glass utility, orb styles, gradient button, scrollbar), `index.html` dark class, `App.tsx` orbs + nav glass
 - [x] 05.2-02-PLAN.md — TaskRow glass + hover, TodayView glass header, EmptyState glass, ReflectionModal glass, calendar.tsx v9 remap + dark styling
-- [ ] 05.2-03-PLAN.md — AddTask/EditTask glass form, WeeklySummary/Settings/ReflectionsHistory glass section cards, notification copy rewrite, reflection system notification
+- [x] 05.2-03-PLAN.md — AddTask/EditTask glass form, WeeklySummary/Settings/ReflectionsHistory glass section cards, notification copy rewrite, reflection system notification
 
 ### Phase 5.1: UI Overhaul — Modern, Polished Desktop App (INSERTED)
 
@@ -154,7 +154,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 5.2
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
 | 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
 | 5.1 UI Overhaul | 3/3 | Complete    | 2026-03-23 |
-| 5.2 Glassmorphism Dark Theme | 2/3 | In Progress|  |
+| 5.2 Glassmorphism Dark Theme | 3/3 | Complete   | 2026-03-23 |
 
 ---
 *Roadmap created: 2026-03-21*
