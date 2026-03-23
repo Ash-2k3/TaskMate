@@ -116,10 +116,17 @@ Plans:
 - [x] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
 - [x] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
 
+### Phase 5.1: UI Overhaul — Modern, Polished Desktop App (INSERTED)
+
+**Goal:** Elevate TaskMate's visual quality to match the standard of modern desktop apps (Linear, Raycast, Notion) — cohesive typography, refined spacing, subtle depth, consistent component language, and a design system that makes every screen feel intentional and premium
+**Depends on:** Phase 5
+**Requirements:** TBD (captured in CONTEXT.md after discuss-phase)
+**Plans:** TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -129,6 +136,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
 | 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
+| 5.1 UI Overhaul | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-03-21*
