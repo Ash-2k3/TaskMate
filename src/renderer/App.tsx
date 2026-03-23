@@ -29,44 +29,93 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-14">
-      <Routes>
-        <Route path="/" element={<TodayView />} />
-        <Route path="/add" element={<AddTask />} />
-        <Route path="/edit/:id" element={<EditTask />} />
-        <Route path="/reflections" element={<ReflectionsHistory />} />
-        <Route path="/summary" element={<WeeklySummary />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
-      <ReflectionModal
-        open={reflectionOpen}
-        onClose={() => setReflectionOpen(false)}
+      {/* Orb 1 — cyan, top-right */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '-100px',
+          right: '-100px',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
       />
+      {/* Orb 2 — indigo, bottom-left */}
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '-80px',
+          left: '-80px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+      {/* Content layer — z-10 above orbs */}
+      <div className="relative z-10">
+        <Routes>
+          <Route path="/" element={<TodayView />} />
+          <Route path="/add" element={<AddTask />} />
+          <Route path="/edit/:id" element={<EditTask />} />
+          <Route path="/reflections" element={<ReflectionsHistory />} />
+          <Route path="/summary" element={<WeeklySummary />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+        <ReflectionModal
+          open={reflectionOpen}
+          onClose={() => setReflectionOpen(false)}
+        />
+      </div>
       {showNavBar && (
-        <nav className="fixed bottom-0 left-0 right-0 border-t border-border bg-card">
+        <nav className="fixed bottom-0 left-0 right-0 glass z-20">
           <div className="flex">
             <button
-              className={`flex-1 py-3 text-ui font-medium text-center ${
-                location.pathname === '/' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
+              className={`relative flex-1 py-3 text-ui font-medium text-center ${
+                location.pathname === '/' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/')}
             >
               Today
+              {location.pathname === '/' && (
+                <span
+                  className="absolute bottom-0 left-0 right-0 h-0.5"
+                  style={{ background: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+                />
+              )}
             </button>
             <button
-              className={`flex-1 py-3 text-ui font-medium text-center ${
-                location.pathname === '/reflections' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
+              className={`relative flex-1 py-3 text-ui font-medium text-center ${
+                location.pathname === '/reflections' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/reflections')}
             >
               Reflections
+              {location.pathname === '/reflections' && (
+                <span
+                  className="absolute bottom-0 left-0 right-0 h-0.5"
+                  style={{ background: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+                />
+              )}
             </button>
             <button
-              className={`flex-1 py-3 text-ui font-medium text-center ${
-                location.pathname === '/summary' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
+              className={`relative flex-1 py-3 text-ui font-medium text-center ${
+                location.pathname === '/summary' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/summary')}
             >
               Summary
+              {location.pathname === '/summary' && (
+                <span
+                  className="absolute bottom-0 left-0 right-0 h-0.5"
+                  style={{ background: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+                />
+              )}
             </button>
           </div>
         </nav>
