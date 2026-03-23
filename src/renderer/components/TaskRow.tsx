@@ -26,7 +26,7 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
       {/* Completion checkbox */}
       <button
         type="button"
-        className="w-4 h-4 rounded-full border border-border flex-shrink-0"
+        className="w-4 h-4 rounded-full border border-border flex-shrink-0 hover:border-primary hover:bg-primary/10"
         onClick={(e) => {
           e.stopPropagation();
           onComplete(task.id);
@@ -49,7 +49,7 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
 
       {/* Overdue badge */}
       {isOverdue && (
-        <span className="text-xs text-muted-foreground bg-muted rounded px-2 py-0.5">
+        <span className="text-xs text-muted-foreground bg-muted/70 rounded-sm px-2 py-0.5">
           {daysAgo === 1 ? `1 day ago` : `${daysAgo} days ago`}
         </span>
       )}
