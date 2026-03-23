@@ -21,18 +21,18 @@ export default function ReflectionsHistory() {
 
   if (isLoading) {
     return (
-      <div className="px-0 pt-6">
+      <div className="pt-6">
         <h1 className="text-2xl font-semibold mb-6 px-6">Reflections</h1>
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="px-6 text-muted-foreground">Loading...</p>
       </div>
     );
   }
 
   if (reflections.length === 0) {
     return (
-      <div className="px-0 pt-6">
+      <div className="pt-6">
         <h1 className="text-2xl font-semibold mb-6 px-6">Reflections</h1>
-        <p className="text-muted-foreground">No reflections yet. Your first will appear here after tonight.</p>
+        <p className="px-6 text-muted-foreground">No reflections yet. Your first will appear here after tonight.</p>
       </div>
     );
   }
@@ -66,11 +66,11 @@ export default function ReflectionsHistory() {
               )}
             </div>
             {expandedDate === r.date && (
-              <div className="px-4 pb-3 space-y-3">
+              <div className="px-4 pb-4 space-y-4">
                 {[r.q1, r.q2, r.q3].map((answer, i) => (
-                  <div key={i}>
-                    <p className="text-sm text-muted-foreground">{QUESTIONS[i]}</p>
-                    <p className="text-sm mt-1">{answer ?? '\u2014'}</p>
+                  <div key={i} className="pl-2 border-l border-white/10">
+                    <p className="text-xs text-muted-foreground mb-1">{QUESTIONS[i]}</p>
+                    <p className="text-sm">{answer ?? '\u2014'}</p>
                   </div>
                 ))}
               </div>

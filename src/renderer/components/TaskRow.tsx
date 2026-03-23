@@ -3,11 +3,12 @@ import { Task } from '../stores/useTaskStore';
 
 interface TaskRowProps {
   task: Task;
+  borderClass?: string;
   onComplete: (id: string) => void;
   onClick: (id: string) => void;
 }
 
-export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
+export default function TaskRow({ task, borderClass, onComplete, onClick }: TaskRowProps) {
   const today = new Date();
 
   const isOverdue =
@@ -20,7 +21,7 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
 
   return (
     <div
-      className="glass glass-hover flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer mb-2"
+      className={`glass glass-hover flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer mb-2 ${borderClass ?? ''}`}
       onClick={() => onClick(task.id)}
     >
       {/* Completion checkbox */}
@@ -35,15 +36,7 @@ export default function TaskRow({ task, onComplete, onClick }: TaskRowProps) {
       />
 
       {/* Title */}
-      <span
-        className={[
-          'flex-1 text-sm',
-          task.priority === 'high' ? 'font-semibold text-foreground' : 'font-normal',
-          task.priority === 'low' ? 'text-muted-foreground' : 'text-foreground',
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
+      <span className="flex-1 text-sm text-foreground">
         {task.title}
       </span>
 

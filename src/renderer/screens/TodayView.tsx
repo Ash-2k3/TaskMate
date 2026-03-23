@@ -36,7 +36,16 @@ export default function TodayView() {
     setMissedTasks([]);
   }
 
-  const visibleTasks = tasks.slice(0, 7);
+  const PRIORITY_CONFIG = {
+    high:   { label: 'High',   labelClass: 'text-rose-400',  borderClass: 'border-l-2 border-rose-400/60'  },
+    medium: { label: 'Medium', labelClass: 'text-amber-400', borderClass: 'border-l-2 border-amber-400/60' },
+    low:    { label: 'Low',    labelClass: 'text-sky-400/80', borderClass: 'border-l-2 border-sky-400/40'  },
+  } as const;
+
+  const grouped = (['high', 'medium', 'low'] as const).map((p) => ({
+    priority: p,
+    tasks: tasks.filter((t) => t.priority === p),
+  })).filter((g) => g.tasks.length > 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,17 +88,31 @@ export default function TodayView() {
         </div>
       )}
 
-      {/* Task list */}
+      {/* Task list grouped by priority */}
       <div className="px-4 pt-2">
         {!isLoading && tasks.length === 0 && <EmptyState />}
-        {visibleTasks.map((task) => (
-          <TaskRow
-            key={task.id}
-            task={task}
-            onComplete={(id) => completeTask(id)}
-            onClick={(id) => navigate(`/edit/${id}`)}
-          />
-        ))}
+        {grouped.map(({ priority, tasks: group }) => {
+          const cfg = PRIORITY_CONFIG[priority];
+          return (
+            <div key={priority} className="mb-1">
+              <div className="flex items-center gap-2 px-1 pt-3 pb-1.5">
+                <span className={`text-xs font-semibold uppercase tracking-wider ${cfg.labelClass}`}>
+                  {cfg.label}
+                </span>
+                <span className="text-xs text-muted-foreground/60">{group.length}</span>
+              </div>
+              {group.map((task) => (
+                <TaskRow
+                  key={task.id}
+                  task={task}
+                  borderClass={cfg.borderClass}
+                  onComplete={(id) => completeTask(id)}
+                  onClick={(id) => navigate(`/edit/${id}`)}
+                />
+              ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

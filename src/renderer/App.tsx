@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Info } from 'lucide-react';
 import { useTaskStore } from './stores/useTaskStore';
 import TodayView from './screens/TodayView';
 import AddTask from './screens/AddTask';
@@ -81,13 +82,22 @@ function App() {
       {showNavBar && (
         <nav className="fixed bottom-0 left-0 right-0 glass z-20">
           <div className="flex">
+            {/* Today tab */}
             <button
               className={`relative flex-1 py-3 text-ui font-medium text-center ${
                 location.pathname === '/' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/')}
             >
-              Today
+              <span className="inline-flex items-center gap-1">
+                Today
+                <span className="group relative">
+                  <Info className="h-3 w-3 opacity-50" />
+                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-popover px-2 py-1 text-xs text-popover-foreground shadow group-hover:block">
+                    Your tasks for today
+                  </span>
+                </span>
+              </span>
               {location.pathname === '/' && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-0.5"
@@ -95,13 +105,23 @@ function App() {
                 />
               )}
             </button>
+
+            {/* Reflections tab */}
             <button
               className={`relative flex-1 py-3 text-ui font-medium text-center ${
                 location.pathname === '/reflections' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/reflections')}
             >
-              Reflections
+              <span className="inline-flex items-center gap-1">
+                Reflections
+                <span className="group relative">
+                  <Info className="h-3 w-3 opacity-50" />
+                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-popover px-2 py-1 text-xs text-popover-foreground shadow group-hover:block">
+                    Daily end-of-day reflections
+                  </span>
+                </span>
+              </span>
               {location.pathname === '/reflections' && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-0.5"
@@ -109,13 +129,23 @@ function App() {
                 />
               )}
             </button>
+
+            {/* Summary tab */}
             <button
               className={`relative flex-1 py-3 text-ui font-medium text-center ${
                 location.pathname === '/summary' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/summary')}
             >
-              Summary
+              <span className="inline-flex items-center gap-1">
+                Summary
+                <span className="group relative">
+                  <Info className="h-3 w-3 opacity-50" />
+                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-popover px-2 py-1 text-xs text-popover-foreground shadow group-hover:block">
+                    Weekly review &amp; insights
+                  </span>
+                </span>
+              </span>
               {location.pathname === '/summary' && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-0.5"
