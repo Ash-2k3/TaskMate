@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { useTaskStore } from '../stores/useTaskStore';
 import { Button } from '@/components/ui/button';
+import { Settings as SettingsIcon } from 'lucide-react';
 import TaskRow from '../components/TaskRow';
 import EmptyState from '../components/EmptyState';
 
@@ -47,9 +48,18 @@ export default function TodayView() {
             {format(new Date(), 'EEEE, MMMM d')}
           </p>
         </div>
-        <Button variant="default" onClick={() => navigate('/add')}>
-          + Add Task
-        </Button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => navigate('/settings')}
+            className="text-muted-foreground hover:text-foreground cursor-pointer"
+            aria-label="Settings"
+          >
+            <SettingsIcon className="h-5 w-5" />
+          </button>
+          <Button variant="default" onClick={() => navigate('/add')}>
+            + Add Task
+          </Button>
+        </div>
       </div>
 
       {/* Catch-up banner for missed reminders (per D-21, D-22) */}

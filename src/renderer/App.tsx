@@ -6,13 +6,15 @@ import AddTask from './screens/AddTask';
 import EditTask from './screens/EditTask';
 import ReflectionModal from './components/ReflectionModal';
 import ReflectionsHistory from './screens/ReflectionsHistory';
+import WeeklySummary from './screens/WeeklySummary';
+import Settings from './screens/Settings';
 
 function App() {
   const loadTasks = useTaskStore((s) => s.loadTasks);
   const [reflectionOpen, setReflectionOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const showNavBar = location.pathname === '/' || location.pathname === '/reflections';
+  const showNavBar = ['/', '/reflections', '/summary'].includes(location.pathname);
 
   useEffect(() => {
     loadTasks();
@@ -32,6 +34,8 @@ function App() {
         <Route path="/add" element={<AddTask />} />
         <Route path="/edit/:id" element={<EditTask />} />
         <Route path="/reflections" element={<ReflectionsHistory />} />
+        <Route path="/summary" element={<WeeklySummary />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
       <ReflectionModal
         open={reflectionOpen}
@@ -55,6 +59,14 @@ function App() {
               onClick={() => navigate('/reflections')}
             >
               Reflections
+            </button>
+            <button
+              className={`flex-1 py-3 text-sm font-medium text-center ${
+                location.pathname === '/summary' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
+              }`}
+              onClick={() => navigate('/summary')}
+            >
+              Summary
             </button>
           </div>
         </nav>
