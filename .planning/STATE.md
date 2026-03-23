@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05-weekly-summary-01-PLAN.md
-last_updated: "2026-03-22T19:34:50.461Z"
+stopped_at: Completed 05-weekly-summary-03-PLAN.md
+last_updated: "2026-03-23T04:46:33.011Z"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 17
-  completed_plans: 16
+  completed_plans: 17
 ---
 
 # Project State
@@ -62,6 +62,7 @@ Plan: 3 of 3
 | Phase 04.1-ui-polish-minimalist-redesign-across-all-screens P02 | 10 | 2 tasks | 4 files |
 | Phase 05-weekly-summary P02 | 5 | 2 tasks | 2 files |
 | Phase 05-weekly-summary P01 | 7 | 2 tasks | 4 files |
+| Phase 05-weekly-summary P03 | 28 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -112,6 +113,8 @@ Recent decisions affecting current work:
 - [Phase 05-weekly-summary]: UTC boundary strings used for all week queries (weekOf + 'T00:00:00.000Z') — consistent with ISO timestamp storage in SQLite
 - [Phase 05-weekly-summary]: getAllTasksForExport uses SELECT * without completed filter — unlike getAllTasks which filters completed=0, enables full data export
 - [Phase 05-weekly-summary]: data:export IPC handler uses dialog.showSaveDialog in main process — keeps file system access server-side, not in renderer
+- [Phase 05-weekly-summary]: Double guard for weekly summary: summaryGeneratedThisWeek (module-level) + hasWeeklySummary (DB) provides at-most-once semantics across sessions
+- [Phase 05-weekly-summary]: startOfWeek with weekStartsOn:1 (Monday) defines week boundaries in scheduler consistent with data-service UTC ISO string queries
 
 ### Roadmap Evolution
 
@@ -127,6 +130,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T19:34:50.459Z
-Stopped at: Completed 05-weekly-summary-01-PLAN.md
+Last session: 2026-03-23T04:46:33.009Z
+Stopped at: Completed 05-weekly-summary-03-PLAN.md
 Resume file: None

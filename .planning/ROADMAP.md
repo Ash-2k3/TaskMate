@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Task Management** - Today view with full task CRUD, priority display, and onboarding
 - [x] **Phase 3: Reminders and Scheduling** - node-cron scheduler, native notifications, re-notification logic, and catch-up on open (completed 2026-03-22)
 - [x] **Phase 4: Daily Reflection** - 9 PM reflection modal, 3 fixed questions, snooze, catch-up, and persistence (completed 2026-03-22)
-- [ ] **Phase 5: Weekly Summary** - Sunday summary generation, stats, deferred tasks, keyword analysis, and data export
+- [x] **Phase 5: Weekly Summary** - Sunday summary generation, stats, deferred tasks, keyword analysis, and data export (completed 2026-03-23)
 
 ## Phase Details
 
@@ -114,7 +114,7 @@ Plans:
 Plans:
 - [x] 05-01-PLAN.md — DataService summary methods (stats, deferred tasks, reflections-for-week, summary CRUD, data stats, delete-all, export-all), IPC handlers, preload bridge, unit tests
 - [x] 05-02-PLAN.md — Pure-JS keyword extraction (extractTopKeyword) with locked stop-word list, TDD with 7 test cases
-- [ ] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
+- [x] 05-03-PLAN.md — Sunday 8 PM scheduler trigger, WeeklySummary screen, Settings screen, Zustand store, 3-tab nav, gear icon in TodayView, human verification checkpoint
 
 ## Progress
 
@@ -128,7 +128,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Reminders and Scheduling | 3/3 | Complete   | 2026-03-22 |
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
-| 5. Weekly Summary | 2/3 | In Progress|  |
+| 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
 
 ---
 *Roadmap created: 2026-03-21*

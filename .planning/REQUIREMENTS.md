@@ -42,10 +42,10 @@
 
 ### Weekly Summary
 
-- [ ] **SUMMARY-01**: App generates a weekly summary every Sunday evening
+- [x] **SUMMARY-01**: App generates a weekly summary every Sunday evening
 - [x] **SUMMARY-02**: Summary includes: total tasks created, total tasks completed, completion rate (%), and any tasks deferred from prior weeks (shown by title, not count)
 - [x] **SUMMARY-03**: Summary includes the top distraction keyword extracted from that week's reflection question 2 answers via simple word frequency analysis (stop words removed)
-- [ ] **SUMMARY-04**: Summary is displayed as text only (no charts) on a dedicated Weekly Summary screen
+- [x] **SUMMARY-04**: Summary is displayed as text only (no charts) on a dedicated Weekly Summary screen
 - [x] **SUMMARY-05**: Summary data is persisted by week so past summaries can be reviewed
 
 ## v2 Requirements
@@ -106,10 +106,10 @@
 | REFLECT-04 | Phase 4 | Complete |
 | REFLECT-05 | Phase 4 | Complete |
 | REFLECT-06 | Phase 4 | Complete |
-| SUMMARY-01 | Phase 5 | Pending |
+| SUMMARY-01 | Phase 5 | Complete |
 | SUMMARY-02 | Phase 5 | Complete |
 | SUMMARY-03 | Phase 5 | Complete |
-| SUMMARY-04 | Phase 5 | Pending |
+| SUMMARY-04 | Phase 5 | Complete |
 | SUMMARY-05 | Phase 5 | Complete |
 
 **Coverage:**
