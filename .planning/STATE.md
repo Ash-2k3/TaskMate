@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05.1-ui-overhaul-02-PLAN.md
-last_updated: "2026-03-23T08:42:11.377Z"
+stopped_at: Completed 05.1-ui-overhaul-03-PLAN.md
+last_updated: "2026-03-23T08:42:17.426Z"
 progress:
   total_phases: 7
   completed_phases: 7
@@ -124,6 +124,8 @@ Recent decisions affecting current work:
 - [Phase 05.1-ui-overhaul]: Checkbox hover uses indigo (hover:border-primary hover:bg-primary/10) as transient-only state — not a persistent third indigo touchpoint
 - [Phase 05.1-ui-overhaul]: EmptyState heading removed entirely — quiet empty states use two flush-left muted lines matching px-4 baseline (D-25 through D-28)
 - [Phase 05.1-ui-overhaul]: bg-card nav bar creates subtle panel distinction from bg-background content; text-ui (13px) applied to all 3 nav labels (D-18, D-19)
+- [Phase 05.1-ui-overhaul]: text-2xs (11px) for section headers and text-ui (13px) for meta/stats text applied across all secondary screens
+- [Phase 05.1-ui-overhaul]: Back button arrow+label pattern standardized: flex items-center gap-1, arrow in text-base span, label in text-ui
 
 ### Roadmap Evolution
 
@@ -139,6 +141,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T08:41:58.456Z
-Stopped at: Completed 05.1-ui-overhaul-02-PLAN.md
+Last session: 2026-03-23T08:42:17.424Z
+Stopped at: Completed 05.1-ui-overhaul-03-PLAN.md
 Resume file: None
