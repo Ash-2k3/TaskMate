@@ -41,17 +41,17 @@ export default function TodayView() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="flex items-start justify-between px-6 py-6">
+      <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-border">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Today</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="text-ui text-muted-foreground mt-1">
             {format(new Date(), 'EEEE, MMMM d')}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigate('/settings')}
-            className="text-muted-foreground hover:text-foreground cursor-pointer"
+            className="text-muted-foreground hover:text-foreground cursor-pointer p-1 rounded"
             aria-label="Settings"
           >
             <SettingsIcon className="h-5 w-5" />

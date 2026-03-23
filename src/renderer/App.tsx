@@ -42,10 +42,10 @@ function App() {
         onClose={() => setReflectionOpen(false)}
       />
       {showNavBar && (
-        <nav className="fixed bottom-0 left-0 right-0 border-t bg-background">
+        <nav className="fixed bottom-0 left-0 right-0 border-t border-border bg-card">
           <div className="flex">
             <button
-              className={`flex-1 py-3 text-sm font-medium text-center ${
+              className={`flex-1 py-3 text-ui font-medium text-center ${
                 location.pathname === '/' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/')}
@@ -53,7 +53,7 @@ function App() {
               Today
             </button>
             <button
-              className={`flex-1 py-3 text-sm font-medium text-center ${
+              className={`flex-1 py-3 text-ui font-medium text-center ${
                 location.pathname === '/reflections' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/reflections')}
@@ -61,7 +61,7 @@ function App() {
               Reflections
             </button>
             <button
-              className={`flex-1 py-3 text-sm font-medium text-center ${
+              className={`flex-1 py-3 text-ui font-medium text-center ${
                 location.pathname === '/summary' ? 'text-primary border-t-2 border-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/summary')}
