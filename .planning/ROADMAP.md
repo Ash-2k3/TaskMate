@@ -121,7 +121,7 @@ Plans:
 **Goal:** Inter font system, 3-level type scale, component hover affordances, warmer color tokens, spacing consistency, nav bar grounding, and per-screen layout fixes — elevating visual quality to match Linear/Notion standard without changing any behavior
 **Depends on:** Phase 5
 **Requirements:** D-01 through D-39 (visual decisions captured in 05.1-CONTEXT.md)
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 05.1-01-PLAN.md — Inter font install, index.css imports + feature settings + antialiasing + color token changes, tailwind.config.js fontFamily + fontSize extensions
@@ -141,7 +141,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
 | 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
-| 5.1 UI Overhaul | 0/3 | Not started | - |
+| 5.1 UI Overhaul | 0/3 | Complete    | 2026-03-23 |
 
 ---
 *Roadmap created: 2026-03-21*
