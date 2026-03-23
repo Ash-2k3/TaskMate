@@ -44,7 +44,7 @@ export default function WeeklySummary() {
         {/* Past week selector (per D-25) */}
         {summaries.length > 1 && (
           <select
-            className="appearance-none text-sm text-muted-foreground bg-background border border-border rounded px-2 py-1 mb-6 cursor-pointer"
+            className="appearance-none font-sans text-ui text-muted-foreground bg-background border border-border rounded px-2 py-1 mb-6 cursor-pointer"
             value={selectedIndex}
             onChange={(e) => setSelectedIndex(Number(e.target.value))}
           >
@@ -57,14 +57,14 @@ export default function WeeklySummary() {
         )}
 
         {/* Week of heading (per D-27) */}
-        <h2 className="text-lg font-medium mb-6">
+        <h2 className="text-base font-medium mb-6">
           Week of {format(parseISO(data.week_of), 'MMMM d')}
         </h2>
 
         {/* This week section (per D-26) */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">This week</h3>
-          <div className="space-y-1">
+          <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">This week</h3>
+          <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-sm">Created</span>
               <span className="text-sm font-medium">{data.tasks_created} tasks</span>
@@ -82,7 +82,7 @@ export default function WeeklySummary() {
 
         {/* Still waiting section (per D-07, D-08, D-26) */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">Still waiting</h3>
+          <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Still waiting</h3>
           {data.deferred_tasks.length === 0 ? (
             <p className="text-sm text-muted-foreground">Nothing carried over — great week.</p>
           ) : (
@@ -98,7 +98,7 @@ export default function WeeklySummary() {
 
         {/* Recurring topic section (per D-17, D-26) */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">Recurring topic</h3>
+          <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Recurring topic</h3>
           <p className="text-sm">{data.recurring_topic ?? '\u2014'}</p>
         </div>
       </div>
