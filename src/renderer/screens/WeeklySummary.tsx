@@ -44,7 +44,7 @@ export default function WeeklySummary() {
         {/* Past week selector (per D-25) */}
         {summaries.length > 1 && (
           <select
-            className="appearance-none font-sans text-ui text-muted-foreground bg-background border border-border rounded px-2 py-1 mb-6 cursor-pointer"
+            className="appearance-none font-sans text-ui text-muted-foreground bg-transparent border border-white/10 rounded px-2 py-1 mb-6 cursor-pointer"
             value={selectedIndex}
             onChange={(e) => setSelectedIndex(Number(e.target.value))}
           >
@@ -62,7 +62,7 @@ export default function WeeklySummary() {
         </h2>
 
         {/* This week section (per D-26) */}
-        <div className="mb-6">
+        <div className="glass rounded-2xl p-4 mb-4">
           <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">This week</h3>
           <div className="space-y-2">
             <div className="flex justify-between">
@@ -81,7 +81,7 @@ export default function WeeklySummary() {
         </div>
 
         {/* Still waiting section (per D-07, D-08, D-26) */}
-        <div className="mb-6">
+        <div className="glass rounded-2xl p-4 mb-4">
           <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Still waiting</h3>
           {data.deferred_tasks.length === 0 ? (
             <p className="text-sm text-muted-foreground">Nothing carried over — great week.</p>
@@ -97,7 +97,7 @@ export default function WeeklySummary() {
         </div>
 
         {/* Recurring topic section (per D-17, D-26) */}
-        <div className="mb-6">
+        <div className="glass rounded-2xl p-4 mb-4">
           <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Recurring topic</h3>
           <p className="text-sm">{data.recurring_topic ?? '\u2014'}</p>
         </div>

@@ -80,6 +80,7 @@ export default function EditTask() {
       <h1 className="text-2xl font-semibold mb-6">Edit Task</h1>
 
       {/* Form */}
+      <div className="glass rounded-2xl p-6">
       <div className="space-y-4">
         {/* Title field */}
         <div>
@@ -194,6 +195,7 @@ export default function EditTask() {
             </Button>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

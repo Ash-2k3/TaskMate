@@ -54,6 +54,7 @@ export default function AddTask() {
       <h1 className="text-2xl font-semibold mb-6">Add Task</h1>
 
       {/* Form */}
+      <div className="glass rounded-2xl p-6">
       <div className="space-y-4">
         {/* Title field */}
         <div>
@@ -133,6 +134,7 @@ export default function AddTask() {
         <Button className="w-full" onClick={handleSave}>
           Save Task
         </Button>
+      </div>
       </div>
     </div>
   );

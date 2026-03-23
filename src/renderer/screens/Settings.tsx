@@ -56,24 +56,26 @@ export default function Settings() {
 
         {/* Record counts (per D-29) */}
         {stats && (
-          <div className="space-y-2 mb-8">
-            <p className="text-ui">
-              {stats.tasksTotal} tasks total
-            </p>
-            <p className="text-ui">
-              {stats.reflectionsTotal} reflections
-              {stats.reflectionsFrom && stats.reflectionsTo && (
-                <span className="text-muted-foreground"> (from {stats.reflectionsFrom} to {stats.reflectionsTo})</span>
-              )}
-            </p>
-            <p className="text-ui">
-              {stats.summariesTotal} weekly summaries
-            </p>
+          <div className="glass rounded-2xl p-4 mb-4">
+            <div className="space-y-2">
+              <p className="text-ui">
+                {stats.tasksTotal} tasks total
+              </p>
+              <p className="text-ui">
+                {stats.reflectionsTotal} reflections
+                {stats.reflectionsFrom && stats.reflectionsTo && (
+                  <span className="text-muted-foreground"> (from {stats.reflectionsFrom} to {stats.reflectionsTo})</span>
+                )}
+              </p>
+              <p className="text-ui">
+                {stats.summariesTotal} weekly summaries
+              </p>
+            </div>
           </div>
         )}
 
         {/* Export (per D-30) */}
-        <div className="mb-6">
+        <div className="glass rounded-2xl p-4 mb-4">
           <Button variant="outline" onClick={handleExport}>
             Export all data
           </Button>
@@ -83,7 +85,7 @@ export default function Settings() {
         </div>
 
         {/* Delete all (per D-31) — inline confirmation */}
-        <div className="border-t border-border pt-6">
+        <div className="glass rounded-2xl p-4">
           {!showDeleteConfirm ? (
             <Button variant="destructive" onClick={() => setShowDeleteConfirm(true)}>
               Delete all data

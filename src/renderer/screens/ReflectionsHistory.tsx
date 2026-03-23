@@ -39,13 +39,13 @@ export default function ReflectionsHistory() {
   };
 
   return (
-    <div className="px-0 pt-6">
-      <h1 className="text-2xl font-semibold mb-6 px-6">Reflections</h1>
-      <div>
+    <div className="pt-6">
+      <h1 className="text-2xl font-semibold mb-4 px-6">Reflections</h1>
+      <div className="glass rounded-2xl overflow-hidden mx-4">
         {reflections.map((r: ReflectionRecord) => (
-          <div key={r.date} className="border-b border-border">
+          <div key={r.date} className="border-b border-white/10">
             <button
-              className="w-full text-left px-4 py-3 font-medium hover:bg-muted/40"
+              className="w-full text-left px-4 py-3 font-medium hover:bg-white/5 transition-glass"
               onClick={() => toggleExpand(r.date)}
             >
               {format(parseISO(r.date), 'EEEE, MMMM d')}
