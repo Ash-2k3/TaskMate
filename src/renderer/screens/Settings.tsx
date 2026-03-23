@@ -47,9 +47,9 @@ export default function Settings() {
         {/* Back button — same pattern as AddTask/EditTask */}
         <button
           onClick={() => navigate('/')}
-          className="text-sm text-muted-foreground hover:text-foreground mb-4 cursor-pointer"
+          className="flex items-center gap-1 text-ui text-muted-foreground hover:text-foreground mb-4 cursor-pointer"
         >
-          &larr; Today
+          <span className="text-base leading-none">&larr;</span><span>Today</span>
         </button>
 
         <h1 className="text-2xl font-semibold mb-6">Settings</h1>
@@ -57,16 +57,16 @@ export default function Settings() {
         {/* Record counts (per D-29) */}
         {stats && (
           <div className="space-y-2 mb-8">
-            <p className="text-sm">
+            <p className="text-ui">
               {stats.tasksTotal} tasks total
             </p>
-            <p className="text-sm">
+            <p className="text-ui">
               {stats.reflectionsTotal} reflections
               {stats.reflectionsFrom && stats.reflectionsTo && (
                 <span className="text-muted-foreground"> (from {stats.reflectionsFrom} to {stats.reflectionsTo})</span>
               )}
             </p>
-            <p className="text-sm">
+            <p className="text-ui">
               {stats.summariesTotal} weekly summaries
             </p>
           </div>
@@ -83,7 +83,7 @@ export default function Settings() {
         </div>
 
         {/* Delete all (per D-31) — inline confirmation */}
-        <div>
+        <div className="border-t border-border pt-6">
           {!showDeleteConfirm ? (
             <Button variant="destructive" onClick={() => setShowDeleteConfirm(true)}>
               Delete all data

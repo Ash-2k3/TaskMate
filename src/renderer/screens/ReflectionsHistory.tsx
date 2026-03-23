@@ -18,8 +18,8 @@ export default function ReflectionsHistory() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-semibold mb-4">Reflections</h1>
+      <div className="px-0 pt-6">
+        <h1 className="text-2xl font-semibold mb-6 px-6">Reflections</h1>
         <p className="text-muted-foreground">Loading...</p>
       </div>
     );
@@ -27,8 +27,8 @@ export default function ReflectionsHistory() {
 
   if (reflections.length === 0) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-semibold mb-4">Reflections</h1>
+      <div className="px-0 pt-6">
+        <h1 className="text-2xl font-semibold mb-6 px-6">Reflections</h1>
         <p className="text-muted-foreground">No reflections yet. Your first will appear here after tonight.</p>
       </div>
     );
@@ -39,8 +39,8 @@ export default function ReflectionsHistory() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Reflections</h1>
+    <div className="px-0 pt-6">
+      <h1 className="text-2xl font-semibold mb-6 px-6">Reflections</h1>
       <div>
         {reflections.map((r: ReflectionRecord) => (
           <div key={r.date} className="border-b border-border">
