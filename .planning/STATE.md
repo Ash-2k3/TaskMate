@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05-weekly-summary-03-PLAN.md
-last_updated: "2026-03-23T07:16:00.339Z"
+stopped_at: Completed 05.1-ui-overhaul-01-PLAN.md
+last_updated: "2026-03-23T08:38:00.464Z"
 progress:
-  total_phases: 6
+  total_phases: 7
   completed_phases: 6
-  total_plans: 17
-  completed_plans: 17
+  total_plans: 20
+  completed_plans: 18
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-21)
 
 **Core value:** Users complete their day with a clear picture of what happened and why — not just a list of incomplete todos.
-**Current focus:** Phase 05 — weekly-summary
+**Current focus:** Phase 05.1 — ui-overhaul
 
 ## Current Position
 
-Phase: 05
-Plan: Not started
+Phase: 05.1 (ui-overhaul) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Plan: Not started
 | Phase 05-weekly-summary P02 | 5 | 2 tasks | 2 files |
 | Phase 05-weekly-summary P01 | 7 | 2 tasks | 4 files |
 | Phase 05-weekly-summary P03 | 28 | 2 tasks | 7 files |
+| Phase 05.1-ui-overhaul P01 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -115,6 +116,9 @@ Recent decisions affecting current work:
 - [Phase 05-weekly-summary]: data:export IPC handler uses dialog.showSaveDialog in main process — keeps file system access server-side, not in renderer
 - [Phase 05-weekly-summary]: Double guard for weekly summary: summaryGeneratedThisWeek (module-level) + hasWeeklySummary (DB) provides at-most-once semantics across sessions
 - [Phase 05-weekly-summary]: startOfWeek with weekStartsOn:1 (Monday) defines week boundaries in scheduler consistent with data-service UTC ISO string queries
+- [Phase 05.1-ui-overhaul]: Inter 400/500/600 imported offline via @fontsource; weight 300 excluded (renders poorly in Electron Chromium)
+- [Phase 05.1-ui-overhaul]: text-2xs (11px) and text-ui (13px) added as named Tailwind tokens for Wave 2 screen-level changes
+- [Phase 05.1-ui-overhaul]: Foreground token warmed from 222.2 84% 4.9% to 220 15% 8%; dark border raised from 17.5% to 22% lightness
 
 ### Roadmap Evolution
 
@@ -130,6 +134,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T04:46:33.009Z
-Stopped at: Completed 05-weekly-summary-03-PLAN.md
+Last session: 2026-03-23T08:38:00.462Z
+Stopped at: Completed 05.1-ui-overhaul-01-PLAN.md
 Resume file: None
