@@ -32,13 +32,13 @@ function Calendar({
         ),
         month_grid: 'w-full border-collapse space-y-1',
         weekdays: 'flex w-full',
-        weekday: 'text-muted-foreground rounded-md flex-1 text-center font-normal text-[0.8rem]',
+        weekday: 'text-muted-foreground rounded-md w-9 text-center font-normal text-[0.8rem]',
         weeks: 'w-full',
         week: 'flex w-full mt-2',
-        day: 'flex-1 h-9 text-center text-sm p-0 relative focus-within:relative focus-within:z-20',
+        day: 'h-9 w-9 text-center text-sm p-0 relative focus-within:relative focus-within:z-20',
         day_button: cn(
           buttonVariants({ variant: 'ghost' }),
-          'h-9 w-full p-0 font-normal aria-selected:opacity-100'
+          'h-9 w-9 p-0 font-normal aria-selected:opacity-100'
         ),
         selected: 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground rounded-md',
         today: 'bg-accent text-accent-foreground rounded-md',

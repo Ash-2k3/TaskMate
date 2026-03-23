@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTaskStore } from '@/stores/useTaskStore';
 import { DatePicker } from '@/components/DatePicker';
+import { TimePicker } from '@/components/TimePicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -86,24 +87,7 @@ export default function AddTask() {
           <label className="text-xs text-muted-foreground block mb-1">
             Reminder time
           </label>
-          <div className="flex items-center gap-2">
-            <input
-              type="time"
-              value={reminderTime ?? ''}
-              onChange={(e) => setReminderTime(e.target.value || null)}
-              disabled={!dueDate}
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-            />
-            {reminderTime && (
-              <button
-                type="button"
-                onClick={() => setReminderTime(null)}
-                className="text-xs text-muted-foreground hover:text-foreground cursor-pointer"
-              >
-                Clear
-              </button>
-            )}
-          </div>
+          <TimePicker value={reminderTime} onChange={setReminderTime} disabled={!dueDate} />
           {!dueDate && (
             <p className="text-xs text-muted-foreground mt-1">
               Set a due date first to enable reminders.
