@@ -46,6 +46,13 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
+      fontSize: {
+        '2xs': ['11px', { lineHeight: '1rem' }],
+        'ui': ['13px', { lineHeight: '1.25rem' }],
+      },
     },
   },
   plugins: [],
