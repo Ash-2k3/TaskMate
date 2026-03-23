@@ -58,7 +58,8 @@ export default function ReflectionModal({ open, onClose }: ReflectionModalProps)
   return (
     <Dialog open={open} modal={true}>
       <DialogContent
-        className="sm:max-w-lg"
+        className="sm:max-w-lg glass border-white/10 bg-transparent"
+        style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
@@ -72,7 +73,7 @@ export default function ReflectionModal({ open, onClose }: ReflectionModalProps)
             <div key={i} className="space-y-2">
               <label className="text-ui font-medium">{question}</label>
               <textarea
-                className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-y focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="w-full min-h-[80px] rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm resize-y focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                 value={values[i]}
                 onChange={(e) => setters[i](e.target.value)}
                 placeholder="Type your reflection..."
