@@ -118,10 +118,15 @@ Plans:
 
 ### Phase 5.1: UI Overhaul — Modern, Polished Desktop App (INSERTED)
 
-**Goal:** Elevate TaskMate's visual quality to match the standard of modern desktop apps (Linear, Raycast, Notion) — cohesive typography, refined spacing, subtle depth, consistent component language, and a design system that makes every screen feel intentional and premium
+**Goal:** Inter font system, 3-level type scale, component hover affordances, warmer color tokens, spacing consistency, nav bar grounding, and per-screen layout fixes — elevating visual quality to match Linear/Notion standard without changing any behavior
 **Depends on:** Phase 5
-**Requirements:** TBD (captured in CONTEXT.md after discuss-phase)
-**Plans:** TBD
+**Requirements:** D-01 through D-39 (visual decisions captured in 05.1-CONTEXT.md)
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05.1-01-PLAN.md — Inter font install, index.css imports + feature settings + antialiasing + color token changes, tailwind.config.js fontFamily + fontSize extensions
+- [ ] 05.1-02-PLAN.md — TaskRow checkbox hover + overdue badge, EmptyState flush-left rewrite, TodayView header border + date subline + gear touch target, nav bar bg-card + text-ui labels
+- [ ] 05.1-03-PLAN.md — WeeklySummary section headers + stat spacing + week date + select font, Settings stats + separator, ReflectionsHistory padding + header, back button pattern, ReflectionModal labels
 
 ## Progress
 
@@ -136,7 +141,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1
 | 4. Daily Reflection | 2/3 | Complete    | 2026-03-22 |
 | 04.1 UI Polish | 2/2 | Complete    | 2026-03-22 |
 | 5. Weekly Summary | 3/3 | Complete   | 2026-03-23 |
-| 5.1 UI Overhaul | 0/? | Not started | - |
+| 5.1 UI Overhaul | 0/3 | Not started | - |
 
 ---
 *Roadmap created: 2026-03-21*
