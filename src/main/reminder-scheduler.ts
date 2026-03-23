@@ -32,8 +32,8 @@ export function initScheduler(
     const dueTasks = dataService.getTasksDueForReminder(todayDate, currentHHMM);
     for (const task of dueTasks) {
       const notification = new Notification({
-        title: 'TaskMate Reminder',   // per D-12
-        body: task.title,             // per D-12
+        title: 'TaskMate',
+        body: `Hey, ${task.title} is waiting on you \u{1F440}`,
       });
       notification.on('click', () => {  // per D-15
         const win = getMainWindow();
@@ -52,8 +52,8 @@ export function initScheduler(
       const renotifyTasks = dataService.getTasksDueForRenotification(todayDate, currentHHMM);
       for (const task of renotifyTasks) {
         const notification = new Notification({
-          title: 'TaskMate Reminder',                    // per D-13
-          body: `Still incomplete \u2014 ${task.title}`, // per D-13
+          title: 'TaskMate',
+          body: `Still pending: ${task.title} \u2014 you've got this \u{1F4AA}`,
         });
         notification.on('click', () => {
           const win = getMainWindow();
@@ -76,6 +76,19 @@ export function initScheduler(
         if (snoozePassed && reflectionFiredToday !== todayDate) {
           const win = getMainWindow();
           if (win && !win.isDestroyed()) {
+            // New system notification for reflection (D-43)
+            const reflectionNotif = new Notification({
+              title: 'TaskMate',
+              body: 'Time to reflect on your day \u{1F319}',
+            });
+            reflectionNotif.on('click', () => {
+              if (win && !win.isDestroyed()) {
+                win.show();
+                win.focus();
+              }
+            });
+            reflectionNotif.show();
+            // Existing IPC message
             win.webContents.send('prompt:reflection');
             reflectionFiredToday = todayDate; // fire at most once per day per D-11
           }
@@ -110,7 +123,7 @@ export function initScheduler(
           // Fire notification (per D-03) — no click handler
           new Notification({
             title: 'TaskMate',
-            body: 'Your weekly summary is ready',
+            body: 'Your week in review is ready \u2014 see how you did \u2728',
           }).show();
         }
       }
