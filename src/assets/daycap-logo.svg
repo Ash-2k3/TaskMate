@@ -6,13 +6,11 @@
     </linearGradient>
   </defs>
 
-  <!-- Cap icon: rising arc (semicircle above a baseline) -->
-  <!-- Baseline -->
-  <line x1="2" y1="26" x2="22" y2="26" stroke="url(#daycap-grad)" stroke-width="2" stroke-linecap="round"/>
-  <!-- Semicircle arc rising from the baseline -->
-  <path d="M4 26 A8 10 0 0 1 20 26" stroke="url(#daycap-grad)" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <!-- Center tick at the top of the arc -->
-  <line x1="12" y1="16" x2="12" y2="13" stroke="url(#daycap-grad)" stroke-width="2" stroke-linecap="round"/>
+  <!-- Cap/arc mark: brim + rising arc (no antenna) -->
+  <!-- Brim line -->
+  <line x1="2" y1="22" x2="22" y2="22" stroke="url(#daycap-grad)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Rising arc (quadratic bezier) -->
+  <path d="M4 22 Q12 8 20 22" stroke="url(#daycap-grad)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
 
   <!-- Wordmark -->
   <text

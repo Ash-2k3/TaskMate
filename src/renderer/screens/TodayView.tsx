@@ -7,7 +7,21 @@ import { Button } from '@/components/ui/button';
 import { Settings as SettingsIcon, Flame, Minus, ArrowDown } from 'lucide-react';
 import TaskRow from '../components/TaskRow';
 import EmptyState from '../components/EmptyState';
-import DayCapLogo from '../../assets/daycap-logo.svg?react';
+function DayCapLogo({ className, 'aria-label': ariaLabel }: { className?: string; 'aria-label'?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 36" fill="none" role="img" aria-label={ariaLabel ?? 'DayCap'} className={className}>
+      <defs>
+        <linearGradient id="daycap-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#06b6d4" />
+          <stop offset="100%" stopColor="#6366f1" />
+        </linearGradient>
+      </defs>
+      <line x1="2" y1="22" x2="22" y2="22" stroke="url(#daycap-grad)" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M4 22 Q12 8 20 22" stroke="url(#daycap-grad)" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <text x="30" y="26" fontFamily="Inter, system-ui, sans-serif" fontSize="18" fontWeight="600" fill="url(#daycap-grad)" dominantBaseline="auto">DayCap</text>
+    </svg>
+  );
+}
 
 export default function TodayView() {
   const navigate = useNavigate();
