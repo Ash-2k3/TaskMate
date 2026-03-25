@@ -36,7 +36,7 @@ export function initScheduler(
   }
 
   function makeNotification(body: string, clickable = true): Notification {
-    const notif = new Notification({ title: 'TaskMate', body });
+    const notif = new Notification({ title: 'DayCap', body });
     if (clickable) notif.on('click', focusWindow);
     return notif;
   }
@@ -83,7 +83,7 @@ export function initScheduler(
           const win = getMainWindow();
           if (win && !win.isDestroyed()) {
             const reflectionNotif = new Notification({
-              title: 'TaskMate',
+              title: 'DayCap',
               body: 'Time to reflect on your day \u{1F319}',
             });
             reflectionNotif.on('click', () => {
@@ -122,7 +122,7 @@ export function initScheduler(
           summaryGeneratedThisWeek = weekOf;
 
           new Notification({
-            title: 'TaskMate',
+            title: 'DayCap',
             body: 'Your weekly summary is ready',
           }).show();
         }

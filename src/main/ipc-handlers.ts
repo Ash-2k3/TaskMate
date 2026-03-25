@@ -41,7 +41,7 @@ export function registerIpcHandlers(dataService: DataService): void {
 
   ipcMain.handle('data:export', async () => {
     const { canceled, filePath } = await dialog.showSaveDialog({
-      defaultPath: 'taskmate-export.json',
+      defaultPath: 'daycap-export.json',
       filters: [{ name: 'JSON', extensions: ['json'] }],
     });
     if (canceled || !filePath) return { success: false };

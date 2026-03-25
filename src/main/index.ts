@@ -25,7 +25,7 @@ let mainWindow: BrowserWindow | null = null;
 const createWindow = () => {
   // Set Windows App User Model ID early (must be before window creation)
   if (process.platform === 'win32') {
-    app.setAppUserModelId('com.taskmate.app');
+    app.setAppUserModelId('com.daycap.app');
   }
 
   // Create the browser window with security baseline

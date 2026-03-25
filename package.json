@@ -1,6 +1,6 @@
 {
-  "name": "taskmate",
-  "productName": "TaskMate",
+  "name": "daycap",
+  "productName": "DayCap",
   "version": "1.0.0",
   "description": "Local-first task management with daily reflection and weekly summaries",
   "main": ".vite/build/index.js",

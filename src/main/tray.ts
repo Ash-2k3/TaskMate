@@ -16,11 +16,11 @@ export function initTray(getMainWindow: () => BrowserWindow | null): void {
   }
 
   tray = new Tray(icon);
-  tray.setToolTip('TaskMate');
+  tray.setToolTip('DayCap');
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Open TaskMate',
+      label: 'Open DayCap',
       click: () => {
         const win = getMainWindow();
         if (win) {
@@ -32,7 +32,7 @@ export function initTray(getMainWindow: () => BrowserWindow | null): void {
     },
     { type: 'separator' },
     {
-      label: 'Quit TaskMate',
+      label: 'Quit DayCap',
       click: () => {
         app.isQuitting = true;
         app.quit();

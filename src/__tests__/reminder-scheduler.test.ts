@@ -138,7 +138,7 @@ describe('scheduler tick — pre-notification (30min before)', () => {
 
     expect(MockNotificationInstances.length).toBeGreaterThanOrEqual(1);
     const notif = MockNotificationInstances[0];
-    expect(notif.title).toBe('TaskMate');
+    expect(notif.title).toBe('DayCap');
     expect(notif.body).toContain('due in 30 minutes');
     expect(notif.show).toHaveBeenCalled();
     expect(mockUpdateTask).toHaveBeenCalledWith('1', { pre_notified: 1 });
@@ -397,7 +397,7 @@ describe('reflection trigger', () => {
     mockTickFn!();
 
     const reflectionNotif = MockNotificationInstances.find(
-      (n) => n.title === 'TaskMate' && n.body === 'Time to reflect on your day \u{1F319}'
+      (n) => n.title === 'DayCap' && n.body === 'Time to reflect on your day \u{1F319}'
     );
     expect(reflectionNotif).toBeDefined();
     expect(reflectionNotif!.show).toHaveBeenCalled();
@@ -412,7 +412,7 @@ describe('reflection trigger', () => {
     mockTickFn!();
 
     const reflectionNotif = MockNotificationInstances.find(
-      (n) => n.title === 'TaskMate' && n.body === 'Time to reflect on your day \u{1F319}'
+      (n) => n.title === 'DayCap' && n.body === 'Time to reflect on your day \u{1F319}'
     );
     expect(reflectionNotif).toBeDefined();
     expect(reflectionNotif!.handlers['click']).toBeDefined();
@@ -452,7 +452,7 @@ describe('weekly summary trigger', () => {
 
     expect(mockSaveWeeklySummary).toHaveBeenCalledTimes(1);
     const summaryNotif = MockNotificationInstances.find(
-      (n) => n.title === 'TaskMate' && n.body === 'Your weekly summary is ready'
+      (n) => n.title === 'DayCap' && n.body === 'Your weekly summary is ready'
     );
     expect(summaryNotif).toBeDefined();
     expect(summaryNotif!.show).toHaveBeenCalled();
