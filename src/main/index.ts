@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, nativeImage } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import { DataService } from './data-service';
@@ -28,11 +28,23 @@ const createWindow = () => {
     app.setAppUserModelId('com.daycap.app');
   }
 
+  // Resolve app icon — works in dev (relative to project root) and packaged (extraResource)
+  const iconPath = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets', 'icon.png')
+    : path.join(__dirname, '../../src/assets/icon.png');
+  const appIcon = nativeImage.createFromPath(iconPath);
+
+  // Set macOS dock icon in development (packaged builds use .icns automatically)
+  if (process.platform === 'darwin' && !app.isPackaged && !appIcon.isEmpty()) {
+    app.dock.setIcon(appIcon);
+  }
+
   // Create the browser window with security baseline
   mainWindow = new BrowserWindow({
     width: 900,
     height: 700,
     show: false, // Prevent white flash — show only when ready
+    icon: appIcon.isEmpty() ? undefined : appIcon,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

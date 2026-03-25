@@ -7,6 +7,7 @@ const config: ForgeConfig = {
       unpack: '**/*.node',
     },
     extraResource: ['src/assets'],
+    icon: 'src/assets/icon',
   },
   rebuildConfig: {
     onlyModules: ['better-sqlite3'],
