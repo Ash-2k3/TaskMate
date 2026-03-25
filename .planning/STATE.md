@@ -153,8 +153,14 @@ None yet.
 
 - Phase 3 needs targeted research before implementation: macOS 14+ Sonoma notification permission flow behavior, Windows 11 Focus Assist API surface via Electron, and node-cron DST handling on Windows all have medium-confidence documentation.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260325-dzg | Add DayCap logo to the app | 2026-03-25 | 4437d14 | [260325-dzg-add-daycap-logo-to-the-app](.planning/quick/260325-dzg-add-daycap-logo-to-the-app/) |
+
 ## Session Continuity
 
-Last session: 2026-03-23T11:41:32.749Z
-Stopped at: Completed 05.2-glassmorphism-dark-theme-03-PLAN.md
+Last session: 2026-03-25T04:34:08.918Z
+Stopped at: Completed quick task 260325-dzg: Add DayCap logo to the app
 Resume file: None
