@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 36" fill="none" role="img" aria-label="DayCap">
+  <defs>
+    <linearGradient id="daycap-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cap icon: rising arc (semicircle above a baseline) -->
+  <!-- Baseline -->
+  <line x1="2" y1="26" x2="22" y2="26" stroke="url(#daycap-grad)" stroke-width="2" stroke-linecap="round"/>
+  <!-- Semicircle arc rising from the baseline -->
+  <path d="M4 26 A8 10 0 0 1 20 26" stroke="url(#daycap-grad)" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Center tick at the top of the arc -->
+  <line x1="12" y1="16" x2="12" y2="13" stroke="url(#daycap-grad)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Wordmark -->
+  <text
+    x="30"
+    y="26"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="18"
+    font-weight="600"
+    fill="url(#daycap-grad)"
+    dominant-baseline="auto"
+  >DayCap</text>
+</svg>
