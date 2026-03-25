@@ -1,4 +1,5 @@
 import { differenceInCalendarDays, parseISO } from 'date-fns';
+import { Clock, AlertCircle } from 'lucide-react';
 import { Task } from '../stores/useTaskStore';
 
 interface TaskRowProps {
@@ -40,9 +41,18 @@ export default function TaskRow({ task, borderClass, onComplete, onClick }: Task
         {task.title}
       </span>
 
+      {/* Reminder time */}
+      {task.reminder_time && !isOverdue && (
+        <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
+          <Clock className="h-3 w-3" />
+          {task.reminder_time}
+        </span>
+      )}
+
       {/* Overdue badge */}
       {isOverdue && (
-        <span className="text-xs text-muted-foreground bg-muted/70 rounded-sm px-2 py-0.5">
+        <span className="flex items-center gap-1 text-xs text-rose-400/80 bg-rose-400/10 rounded-sm px-2 py-0.5">
+          <AlertCircle className="h-3 w-3" />
           {daysAgo === 1 ? `1 day ago` : `${daysAgo} days ago`}
         </span>
       )}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { Info } from 'lucide-react';
+import { Info, CalendarCheck, BookOpen, BarChart2 } from 'lucide-react';
 import { useTaskStore } from './stores/useTaskStore';
+import { useReflectionStore } from './stores/useReflectionStore';
 import TodayView from './screens/TodayView';
 import AddTask from './screens/AddTask';
 import EditTask from './screens/EditTask';
@@ -76,7 +77,10 @@ function App() {
         </Routes>
         <ReflectionModal
           open={reflectionOpen}
-          onClose={() => setReflectionOpen(false)}
+          onClose={() => {
+            setReflectionOpen(false);
+            useReflectionStore.getState().checkHasToday();
+          }}
         />
       </div>
       {showNavBar && (
@@ -84,19 +88,14 @@ function App() {
           <div className="flex">
             {/* Today tab */}
             <button
-              className={`relative flex-1 py-3 text-ui font-medium text-center ${
+              className={`relative flex-1 py-2 text-center ${
                 location.pathname === '/' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/')}
             >
-              <span className="inline-flex items-center gap-1">
-                Today
-                <span className="group relative">
-                  <Info className="h-3 w-3 opacity-50" />
-                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-popover px-2 py-1 text-xs text-popover-foreground shadow group-hover:block">
-                    Your tasks for today
-                  </span>
-                </span>
+              <span className="flex flex-col items-center gap-0.5">
+                <CalendarCheck className="h-5 w-5" />
+                <span className="text-[11px] font-medium">Today</span>
               </span>
               {location.pathname === '/' && (
                 <span
@@ -108,19 +107,14 @@ function App() {
 
             {/* Reflections tab */}
             <button
-              className={`relative flex-1 py-3 text-ui font-medium text-center ${
+              className={`relative flex-1 py-2 text-center ${
                 location.pathname === '/reflections' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/reflections')}
             >
-              <span className="inline-flex items-center gap-1">
-                Reflections
-                <span className="group relative">
-                  <Info className="h-3 w-3 opacity-50" />
-                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-popover px-2 py-1 text-xs text-popover-foreground shadow group-hover:block">
-                    Daily end-of-day reflections
-                  </span>
-                </span>
+              <span className="flex flex-col items-center gap-0.5">
+                <BookOpen className="h-5 w-5" />
+                <span className="text-[11px] font-medium">Reflections</span>
               </span>
               {location.pathname === '/reflections' && (
                 <span
@@ -132,19 +126,14 @@ function App() {
 
             {/* Summary tab */}
             <button
-              className={`relative flex-1 py-3 text-ui font-medium text-center ${
+              className={`relative flex-1 py-2 text-center ${
                 location.pathname === '/summary' ? 'text-primary' : 'text-muted-foreground'
               }`}
               onClick={() => navigate('/summary')}
             >
-              <span className="inline-flex items-center gap-1">
-                Summary
-                <span className="group relative">
-                  <Info className="h-3 w-3 opacity-50" />
-                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-popover px-2 py-1 text-xs text-popover-foreground shadow group-hover:block">
-                    Weekly review &amp; insights
-                  </span>
-                </span>
+              <span className="flex flex-col items-center gap-0.5">
+                <BarChart2 className="h-5 w-5" />
+                <span className="text-[11px] font-medium">Summary</span>
               </span>
               {location.pathname === '/summary' && (
                 <span
